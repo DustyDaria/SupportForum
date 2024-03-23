@@ -12,15 +12,19 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    
-                </a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" title="ООО «РЖД-ТехСервис»"><img src="~/src/logo_rzd-ts-vert.svg" width="76" height="60" title="ООО «РЖД-ТехСервис»" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link px-2 link-secondary">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Forum" asp-action="Index">Forum</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -31,13 +35,28 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
-                    <p class="nav navbar-text">Hello, @User.Identity?.Name!</p>
+                    
+                    <p class="nav navbar-text">Добро пожаловать,<br />@User.Identity?.Name!</p>
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            
             @RenderBody()
         </main>
     </div>
