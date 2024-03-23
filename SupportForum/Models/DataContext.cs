@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Data;
+namespace SupportForum.Models;
 
 public partial class DataContext : DbContext
 {
@@ -33,9 +33,10 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<TblValueAttribute> TblValueAttributes { get; set; }
 
+    string? connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()
+        .GetSection("ConnectionStrings")["DefaultConnection"];
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=URA-IGNATEVADE\\SQLEXPRESS;Database=SupportForum;Integrated Security=True;TrustServerCertificate=True;Encrypt=false;");
+        => optionsBuilder.UseSqlServer(connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,9 +57,7 @@ public partial class DataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("MSG_INITIATOR_FK");
 
-            entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("MSG_PARENT_FK");
+            entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation).HasConstraintName("MSG_PARENT_FK");
 
             entity.HasOne(d => d.IdTopicNavigation).WithMany(p => p.TblCommunications)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -79,9 +78,7 @@ public partial class DataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FORUM_USER_FK");
 
-            entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FORUM_PARENT_FK");
+            entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation).HasConstraintName("FORUM_PARENT_FK");
         });
 
         modelBuilder.Entity<TblInstruction>(entity =>
@@ -136,7 +133,7 @@ public partial class DataContext : DbContext
                         .HasConstraintName("TKW_TOPIC_FK"),
                     j =>
                     {
-                        j.HasKey("IdTopic", "IdKeyWord").HasName("PK__TBL_TOPI__321BD9862EC71621");
+                        j.HasKey("IdTopic", "IdKeyWord").HasName("PK__TBL_TOPI__321BD9865FE66C29");
                         j.ToTable("TBL_TOPIC_KEY_WORD");
                         j.IndexerProperty<decimal>("IdTopic")
                             .HasColumnType("decimal(18, 0)")

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
+using SupportForum.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-//var connection = Connec
-//var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["DefaultConnection"];
-//builder.Services.AddDbContext<Context>(options =>
-//    options.UseSqlServer(connection));
+var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()
+    .GetSection("ConnectionStrings")["DefaultConnection"];
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

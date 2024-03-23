@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Data;
+namespace SupportForum.Models;
 
 [Table("TBL_FORUM")]
 [Index("Title", Name = "FORUM_TITLE_IX")]
@@ -25,7 +25,7 @@ public partial class TblForum
     public string? Descriptions { get; set; }
 
     [Column("idParent", TypeName = "decimal(18, 0)")]
-    public decimal IdParent { get; set; }
+    public decimal? IdParent { get; set; }
 
     [Column("idInitiator", TypeName = "decimal(18, 0)")]
     public decimal IdInitiator { get; set; }
@@ -43,7 +43,7 @@ public partial class TblForum
 
     [ForeignKey("IdParent")]
     [InverseProperty("InverseIdParentNavigation")]
-    public virtual TblForum IdParentNavigation { get; set; } = null!;
+    public virtual TblForum? IdParentNavigation { get; set; }
 
     [InverseProperty("IdParentNavigation")]
     public virtual ICollection<TblForum> InverseIdParentNavigation { get; set; } = new List<TblForum>();

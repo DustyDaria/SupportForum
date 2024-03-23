@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Data;
+namespace SupportForum.Models;
 
 [Table("TBL_COMMUNICATION")]
 public partial class TblCommunication
@@ -31,7 +31,7 @@ public partial class TblCommunication
     public decimal? Estimate { get; set; }
 
     [Column("idParent", TypeName = "decimal(18, 0)")]
-    public decimal IdParent { get; set; }
+    public decimal? IdParent { get; set; }
 
     [Column("idInitiator", TypeName = "decimal(18, 0)")]
     public decimal IdInitiator { get; set; }
@@ -45,7 +45,7 @@ public partial class TblCommunication
 
     [ForeignKey("IdParent")]
     [InverseProperty("InverseIdParentNavigation")]
-    public virtual TblCommunication IdParentNavigation { get; set; } = null!;
+    public virtual TblCommunication? IdParentNavigation { get; set; }
 
     [ForeignKey("IdTopic")]
     [InverseProperty("TblCommunications")]

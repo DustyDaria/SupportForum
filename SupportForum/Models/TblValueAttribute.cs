@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Data;
+namespace SupportForum.Models;
 
 [Table("TBL_VALUE_ATTRIBUTES")]
 public partial class TblValueAttribute
