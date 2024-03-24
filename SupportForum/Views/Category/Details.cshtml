@@ -1,0 +1,37 @@
+﻿@model SupportForum.Models.TblCategory
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Category.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblCategory</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descriptions)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descriptions)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsModeration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsModeration)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
