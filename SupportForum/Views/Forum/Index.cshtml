@@ -4,58 +4,43 @@
     ViewData["Title"] = "Index";
     Layout = "_Forum.cshtml";
 }
-
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descriptions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdCategoryNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdInitiatorNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdParentNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descriptions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCategoryNavigation.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdParentNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+@using (Html.BeginForm())
+{
+    <div class="treeview">
+        @{
+            ShowTreeData(Model.Where(w => w.IdParent == null).Select(s => s));
+        }
+
+    </div>
 }
-    </tbody>
-</table>
+
+@functions {
+
+    public void ShowTreeData(IEnumerable<SupportForum.Models.TblForum> model)
+    {
+        <ul class="list-group">
+            @foreach (var item in model)
+            {
+                <li class="list-group-item node-treeview10">
+                    <span class="icon expand-icon glyphicon glyphicon-minus"></span>
+                    <span class="icon node-icon"></span>
+                    <a href="#" style="color:inherit;">@Html.DisplayFor(modelItem => item.Title)</a>
+                    <a href="/Forum/Edit/@item.Id">Edit</a> |
+                    <a href="/Forum/Details/@item.Id">Details</a> |
+                    <a href="/Forum/Delete/@item.Id">Delete</a>
+                    @if (item.InverseIdParentNavigation.Any())
+                    {
+                        ShowTreeData(item.InverseIdParentNavigation);
+                    }
+                </li>
+            }
+        </ul>
+    }
+}
 

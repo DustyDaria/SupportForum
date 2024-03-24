@@ -18,14 +18,18 @@ namespace SupportForum.Controllers
             _context = context;
         }
 
-        // GET: Forum
+        /// <summary>
+        /// GET: All Forums
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
-            Task<List<TblForum>>? dataContext = _context.TblForums.Include(t => t.IdCategoryNavigation)
+            var forums = _context.TblForums
+                .Include(t => t.IdCategoryNavigation)
                 .Include(t => t.IdInitiatorNavigation)
                 .Include(t => t.IdParentNavigation)
                 .ToListAsync();
-            return View(await dataContext);
+            return forums == null ? NotFound() : View(await forums);
         }
 
         // GET: Forum/Details/5
