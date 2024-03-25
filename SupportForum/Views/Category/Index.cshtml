@@ -19,7 +19,7 @@
                     <h3 class="mb-0">@item.Title</h3>
                     <p class="card-text mb-auto">@item.Descriptions</p>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-controller="Forum" asp-action="Index" asp-route-idCategory="@item.Id">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
