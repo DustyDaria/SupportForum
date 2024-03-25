@@ -21,7 +21,11 @@ namespace SupportForum.Controllers
         // GET: Topic
         public async Task<IActionResult> Index()
         {
-            var dataContext = _context.TblTopics.Include(t => t.IdForumNavigation).Include(t => t.IdInitiatorNavigation);
+            var dataContext = _context.TblTopics
+                .Include(t => t.IdForumNavigation)
+                .Include(t => t.IdInitiatorNavigation)
+                .Include(t => t.IdKeyWords)
+                .Include(t => t.TblCommunications);
             return View(await dataContext.ToListAsync());
         }
 

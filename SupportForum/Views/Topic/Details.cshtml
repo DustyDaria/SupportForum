@@ -44,6 +44,48 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
 </div>
+@if(Model.TblCommunications.Any())
+{
+    @using (Html.BeginForm())
+    {
+        <div class="treeview">
+            @{
+                ShowTreeMessage(Model.TblCommunications);
+            }
+        </div>
+    }
+}
+
+
+@functions {
+
+    public void ShowTreeMessage(ICollection<SupportForum.Models.TblCommunication> model)
+    {
+        <ul class="list-group">
+            @foreach (var item in model)
+            {
+                <li class="list-group-item node-treeview10">
+                    @Html.DisplayFor(modelItem => item.TextMsg) ->@Html.DisplayFor(modelItem => item.IsAnswer) ->@Html.DisplayFor(modelItem => item.Estimate)
+                    <br />
+                    <a href="/Topic/EditMessage/@item.Id">Edit</a> ->@Html.DisplayFor(modelItem => item.IsEdit)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.TimeCreate)
+                    <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
+
+                    @if (item.TblReactions.Any())
+                    {
+                        <p>Like = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.RLike == 1).Count())
+                        <p>Dislike = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.RDislike == 1).Count())
+                    }
+                    @if (item.InverseIdParentNavigation.Any())
+                    {
+                        ShowTreeMessage(item.InverseIdParentNavigation);
+                    }
+                </li>
+            }
+        </ul>
+    }
+}
+
