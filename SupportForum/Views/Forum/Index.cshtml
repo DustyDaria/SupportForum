@@ -13,6 +13,9 @@
 @using (Html.BeginForm())
 {
     <div class="treeview">
+        <img src="~/src/question-circle.svg" width="24" height="24" aria-label="Вопрос">
+        <img src="~/src/people.svg" width="24" height="24" aria-label="Форум">
+
         @{
             ShowTreeData(Model.Where(w => w.IdParent == null).Select(s => s));
         }
@@ -28,12 +31,42 @@
             @foreach (var item in model)
             {
                 <li class="list-group-item node-treeview10">
+                    <svg src="../wwwroot/src/people.svg" width="24" height="24" aria-label="Форум"></svg>
                     <span class="icon expand-icon glyphicon glyphicon-minus"></span>
                     <span class="icon node-icon"></span>
-                    <a href="#" style="color:inherit;">@Html.DisplayFor(modelItem => item.Title)</a>
+                    <a href="#" style="color:inherit;">@Html.DisplayFor(modelItem => item.Title)</a> | @Html.DisplayFor(modelItem => item.Descriptions)
+                    <br />
                     <a href="/Forum/Edit/@item.Id">Edit</a> |
                     <a href="/Forum/Details/@item.Id">Details</a> |
                     <a href="/Forum/Delete/@item.Id">Delete</a>
+                    <br />
+                    <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
+
+                    @if (item.TblTopics.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach(var topic in item.TblTopics)
+                            {
+                                <li class="list-group-item node-treeview10">
+                                    <svg src="../wwwroot/src/question-circle.svg" width="24" height="24" aria-label="Вопрос"></svg>
+                                    <span class="icon expand-icon glyphicon glyphicon-minus"></span>
+                                    <span class="icon node-icon"></span>
+                                    <a href="#" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Question)
+                                    <br />
+                                    <a href="/Topic/Edit/@topic.Id">Edit</a> |
+                                    <a href="/Topic/Details/@topic.Id">Details</a> |
+                                    <a href="/Topic/Delete/@topic.Id">Delete</a>
+                                    <br />
+                                    @foreach(var keyWord in topic.IdKeyWords)
+                                    {
+                                        @Html.DisplayFor(kw => keyWord.KeyWord) 
+                                    }
+                                    <br />
+                                    <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
+                                </li>
+                            }
+                        </ul>
+                    }
                     @if (item.InverseIdParentNavigation.Any())
                     {
                         ShowTreeData(item.InverseIdParentNavigation);

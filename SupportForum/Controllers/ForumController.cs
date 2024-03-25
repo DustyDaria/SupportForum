@@ -19,15 +19,17 @@ namespace SupportForum.Controllers
         }
 
         /// <summary>
-        /// GET: All Forums
+        /// GET: All Forums by category
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(decimal? idCategory)
         {
             var forums = _context.TblForums
                 .Include(t => t.IdCategoryNavigation)
                 .Include(t => t.IdInitiatorNavigation)
                 .Include(t => t.IdParentNavigation)
+                .Include(t => t.TblTopics)
+                .Where(w => w.IdCategory == idCategory || w.IdCategory == null)
                 .ToListAsync();
             return forums == null ? NotFound() : View(await forums);
         }
@@ -44,6 +46,7 @@ namespace SupportForum.Controllers
                 .Include(t => t.IdCategoryNavigation)
                 .Include(t => t.IdInitiatorNavigation)
                 .Include(t => t.IdParentNavigation)
+                .Include(t => t.TblTopics)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblForum == null)
             {
