@@ -22,7 +22,9 @@ namespace SupportForum.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.TblInstructions != null ? 
-                          View(await _context.TblInstructions.ToListAsync()) :
+                          View(await _context.TblInstructions
+                            .Where(w => w.IsShort != true)
+                            .ToListAsync()) :
                           Problem("Entity set 'DataContext.TblInstructions'  is null.");
         }
 
