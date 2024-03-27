@@ -40,6 +40,8 @@ namespace SupportForum.Controllers
             var tblTopic = await _context.TblTopics
                 .Include(t => t.IdForumNavigation)
                 .Include(t => t.IdInitiatorNavigation)
+                .Include(t => t.IdKeyWords)
+                .Include(t => t.TblCommunications)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblTopic == null)
             {
