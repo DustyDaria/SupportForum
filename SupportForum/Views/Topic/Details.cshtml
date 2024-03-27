@@ -31,9 +31,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdForumNavigation.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdInitiatorNavigation)
-        </dt>
+        @if(Model.IsAnonymous == true)
+        {
+            <dt class="col-sm-2">
+                <label>Анонимный вопрос</label>
+            </dt>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdInitiatorNavigation)
+            </dt>
+        }
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdInitiatorNavigation.Id)
         </dd>

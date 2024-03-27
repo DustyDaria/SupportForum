@@ -60,7 +60,14 @@
                                         @Html.DisplayFor(kw => keyWord.KeyWord) 
                                     }
                                     <br />
-                                    <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
+                                    @if(topic.IsAnonymous == true)
+                                    {
+                                        <label>Анонимный вопрос</label>
+                                    }
+                                    else
+                                    {
+                                        <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
+                                    }
                                 </li>
                             }
                         </ul>
