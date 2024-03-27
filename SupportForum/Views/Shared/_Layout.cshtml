@@ -7,81 +7,111 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SupportForum.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.offcanvas.min.css" />
     <link href="~/src/favicon.ico" id="linkfav" rel="icon" type="image/png" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-dark bg-dark fixed-top">
             <div class="container-fluid">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" title="ООО «РЖД-ТехСервис»">
-                    <img src="~/src/logo_rzd-ts-vert.svg" width="76" height="60" title="ООО «РЖД-ТехСервис»" /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-secondary">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Forum" asp-action="Index">Forum</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                        </li>
-                    </ul>
-                    
-                    <p class="nav navbar-text">Добро пожаловать,<br />@User.Identity?.Name!</p>
-                    <div class="dropdown text-end">
-                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                        </a>
-                        <ul class="dropdown-menu text-small">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
+                <div class="col-md-12">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="d-flex">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <a class="navbar-brand mb-auto ms-5" asp-controller="Category" asp-action="Index">
+                                <h3>Форум</h3>
+                                </a>
+                            <form class="d-flex my-auto ms-3" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+                                <button class="btn btn-success" type="submit">Поиск</button>
+                            </form>
+                        </div>
+                        <div class="d-flex">
+                            <a asp-area="" asp-controller="Category" asp-action="Index" class="navbar-brand mb-auto" title="ООО «РЖД-ТехСервис»">
+                                <img src="~/src/Logo_TS_Gorizontal.svg" width="208" height="24" title="ООО «РЖД-ТехСервис»" />
+                            </a>
+                        </div>
                     </div>
-                    
+                </div>
+                <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Темный offcanvas</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="Details">Мой профиль</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Вопросы
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item text-dark" href="#">Мои вопросы</a></li>
+                                    <li><a class="dropdown-item text-dark" href="#">Я участвовал</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item text-dark" href="#">Хочу спросить..</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="KeyWord" asp-action="Index">Поиск по ключевым словам</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="News" asp-action="Index">Новости</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="FAQ" asp-action="Index">FAQs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Feedback">Обратная связь</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="About">О программе</a>
+                            </li>
+                            
+                        </ul>
+                        
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
+
+    <main role="main" class="pt-5 mt-5 p-3 my-3 container">
+        @RenderBody()
+    </main>
     <div class="container">
-        <main role="main" class="pb-3">
-            
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="border-top footer text-muted">
         @if (IsSectionDefined("Footer"))
         {
-            <div class="container">
-                @RenderSection("Footer")
-            </div>
+            @RenderSection("Footer")
         }
         else
         {
-            <div class="container">
-                <span>Содержание элемента footer по умолчанию.</span>
-                &copy; 2024 - SupportForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
+            <footer class="d-flex flex-wrap justify-content-between align-items-center border-top">
+                <p class="col-md-4 mb-0 text-body-secondary">&copy; ООО «РЖД-ТехСервис», @DateTime.Now.Year</p>
+
+                <ul class="nav col-md-4 justify-content-end">
+                    <li class="nav-item"><a asp-controller="News" asp-action="Index" class="nav-link px-2 link-secondary">Новости</a></li>
+                    <li class="nav-item"><a asp-controller="FAQ" asp-action="Index" class="nav-link px-2 link-secondary">FAQs</a></li>
+                    <li class="nav-item"><a asp-controller="Home" asp-action="Feedback" class="nav-link px-2 link-secondary">Обратная связь</a></li>
+                    <li class="nav-item"><a asp-controller="Home" asp-action="About" class="nav-link px-2 link-secondary">О программе</a></li>
+                </ul>
+            </footer>
         }
-    </footer>
+    </div>
+    
+        
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.offcanvas.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
