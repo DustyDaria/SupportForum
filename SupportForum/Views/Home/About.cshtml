@@ -1,8 +1,18 @@
 ﻿
-
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "О программе";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Этот сайт является форумом технической поддержки РЖД-ТехСервис</p>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <div class="h-100 p-5 text-white my-4 bg-dark rounded-3">
+        <p>Версия веб-приложения: </p>
+        <p>Дата/время сборки и публикации: </p>
+        <p><b>Версия </b></p>
+        <p>&copy; РЖД-ТехСервис, @DateTime.Now.Year</p>
+    </div>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <h3>Краткое описание</h3>
+        <p>Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem Ipsum Generator. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    </div>
+</div>
