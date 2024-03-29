@@ -8,9 +8,7 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+
 
 html {
   position: relative;
@@ -21,14 +19,7 @@ body {
   margin-bottom: 60px;
 }
 
-.form-control-dark {
-    border-color: var(--bs-gray);
-}
 
-    .form-control-dark:focus {
-        border-color: #fff;
-        box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
-    }
 
 .text-small {
     font-size: 85%;
@@ -36,4 +27,26 @@ body {
 
 .dropdown-toggle:not(:focus) {
     outline: 0;
+}
+
+.my-bg-light {
+    background-color: #FFFFFF;
+}
+
+.my-bg-dark {
+    background-color: #394A58;
+}
+
+.my-bg-primary {
+    background-color: #E21A1A;
+}
+
+.forum-icon::before {
+    content: url(/src/people.svg);
+    padding: 1vh;
+}
+
+.topic-icon::before {
+    content: url(/src/question-circle.svg);
+    padding: 1vh;
 }
