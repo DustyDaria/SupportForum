@@ -10,12 +10,10 @@
 
 @using (Html.BeginForm())
 {
-    <div class="treeview">
-
+    <div class="treeview" id="forumTreeView">
         @{
             ShowTreeData(Model.Where(w => w.IdParent == null).Select(s => s));
         }
-
     </div>
 }
 
@@ -27,47 +25,59 @@
             @foreach (var item in model)
             {
                 <li class="list-group-item node-treeview10">
-                    <a href="#" class="forum-icon" style="color:inherit;">@Html.DisplayFor(modelItem => item.Title)</a> | @Html.DisplayFor(modelItem => item.Descriptions)
-                    <br />
-                    <a href="/Forum/Edit/@item.Id">Edit</a> |
-                    <a href="/Forum/Details/@item.Id">Details</a> |
-                    <a href="/Forum/Delete/@item.Id">Delete</a>
-                    <br />
-                    <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
 
-                    @if (item.TblTopics.Any())
-                    {
-                        <ul class="list-group">
-                            @foreach(var topic in item.TblTopics)
-                            {
-                                <li class="list-group-item node-treeview10">
-                                    <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Question)
+                <div id="forumTreeView_@item.Id">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="hdr_@item.Id">
+                                <button class="forum-icon accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#branch_@item.Id" aria-expanded="true" aria-controls="branch_@item.Id">
+                                    @Html.DisplayFor(modelItem => item.Title) | @Html.DisplayFor(modelItem => item.Descriptions)
+                                </button>
+                            </h2>
+                            <div id="branch_@item.Id" class="accordion-collapse collapse show" aria-labelledby="hdr_@item.Id" data-bs-parent="#forumTreeView_@item.Id">
+                                <div class="accordion-body">
+                                    <a href="/Forum/Edit/@item.Id">Edit</a> |
+                                    <a href="/Forum/Details/@item.Id">Details</a> |
+                                    <a href="/Forum/Delete/@item.Id">Delete</a>
                                     <br />
-                                    <a href="/Topic/Edit/@topic.Id">Edit</a> |
-                                    <a href="/Topic/Details/@topic.Id">Details</a> |
-                                    <a href="/Topic/Delete/@topic.Id">Delete</a>
-                                    <br />
-                                    @foreach(var keyWord in topic.IdKeyWords)
+                                    <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
+
+                                    @if (item.TblTopics.Any())
                                     {
-                                        @Html.DisplayFor(kw => keyWord.KeyWord) 
+                                        <ul class="list-group">
+                                            @foreach (var topic in item.TblTopics)
+                                            {
+                                                <li class="list-group-item node-treeview10">
+                                                    <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Question)
+                                                    <br />
+                                                    <a href="/Topic/Edit/@topic.Id">Edit</a> |
+                                                    <a href="/Topic/Details/@topic.Id">Details</a> |
+                                                    <a href="/Topic/Delete/@topic.Id">Delete</a>
+                                                    <br />
+                                                    @foreach (var keyWord in topic.IdKeyWords)
+                                                    {
+                                                        @Html.DisplayFor(kw => keyWord.KeyWord)
+                                                    }
+                                                    <br />
+                                                    @if (topic.IsAnonymous == true)
+                                                    {
+                                                        <label>Анонимный вопрос</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
                                     }
-                                    <br />
-                                    @if(topic.IsAnonymous == true)
+                                    @if (item.InverseIdParentNavigation.Any())
                                     {
-                                        <label>Анонимный вопрос</label>
+                                        ShowTreeData(item.InverseIdParentNavigation);
                                     }
-                                    else
-                                    {
-                                        <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    }
-                    @if (item.InverseIdParentNavigation.Any())
-                    {
-                        ShowTreeData(item.InverseIdParentNavigation);
-                    }
+                                </div>
+                            </div>
+                        </div>
+                </div>
                 </li>
             }
         </ul>
