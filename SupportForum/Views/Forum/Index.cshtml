@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SupportForum.Models.TblForum>
+﻿@addTagHelper *, ViewComponentSample
+@model IEnumerable<SupportForum.Models.TblForum>
 
 @{
     Layout = "_Forum.cshtml";
@@ -7,11 +8,27 @@
 <h1>
     @if(Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.IsModeration).FirstOrDefault() == true)
     {
-        <a asp-action="Create" title="Создать форум" class="btn rounded-circle lh-1" type="button" >
+        <a title="Создать форум" class="btn rounded-circle lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum">
             <img src="/src/plus-circle-fill.svg" width="24" height="24" />
         </a>
     }
     @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()</h1>
+
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasActionForum" aria-labelledby="offcanvasActionForumLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasActionForumLabel">Создание форума</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        
+        @await Component.InvokeAsync("CreateForum", new TblForum()
+        { 
+            IdInitiator = 1,
+            IdCategory = Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault(),
+            IdParent = null
+        })
+    </div>
+</div>
 
 
 @using (Html.BeginForm())

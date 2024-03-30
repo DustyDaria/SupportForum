@@ -39,7 +39,7 @@ public partial class TblForum
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblForums")]
-    public virtual TblUser IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; } = null!;
 
     [ForeignKey("IdParent")]
     [InverseProperty("InverseIdParentNavigation")]

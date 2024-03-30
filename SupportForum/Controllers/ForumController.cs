@@ -56,15 +56,6 @@ namespace SupportForum.Controllers
             return View(tblForum);
         }
 
-        // GET: Forum/Create
-        public IActionResult Create()
-        {
-            ViewData["IdCategory"] = new SelectList(_context.TblCategories, "Id", "Id");
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id");
-            ViewData["IdParent"] = new SelectList(_context.TblForums, "Id", "Id");
-            return View();
-        }
-
         // POST: Forum/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -76,12 +67,18 @@ namespace SupportForum.Controllers
             {
                 _context.Add(tblForum);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { idCategory = tblForum.IdCategory });
             }
-            ViewData["IdCategory"] = new SelectList(_context.TblCategories, "Id", "Id", tblForum.IdCategory);
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id", tblForum.IdInitiator);
-            ViewData["IdParent"] = new SelectList(_context.TblForums, "Id", "Id", tblForum.IdParent);
-            return View(tblForum);
+
+            ViewData["Errors"] = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+            return ViewComponent("CreateForum", new
+            {
+                idInitiator = tblForum.IdInitiator,
+                idCategory = tblForum.IdCategory,
+                idParent = tblForum.IdParent
+            });
         }
 
         // GET: Forum/Edit/5

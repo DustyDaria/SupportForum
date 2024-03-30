@@ -1,13 +1,8 @@
 ﻿@model SupportForum.Models.TblForum
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = "_Forum.cshtml";
-}
-
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-controller="Forum" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -19,18 +14,11 @@
                 <input asp-for="Descriptions" class="form-control" />
                 <span asp-validation-for="Descriptions" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IdParent" class="control-label"></label>
-                <select asp-for="IdParent" class ="form-control" asp-items="ViewBag.IdParent"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdInitiator" class="control-label"></label>
-                <select asp-for="IdInitiator" class ="form-control" asp-items="ViewBag.IdInitiator"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCategory" class="control-label"></label>
-                <select asp-for="IdCategory" class ="form-control" asp-items="ViewBag.IdCategory"></select>
-            </div>
+
+            @Html.Hidden("IdParent", @Model.IdParent)
+            @Html.Hidden("IdInitiator", @Model.IdInitiator)
+            @Html.Hidden("IdCategory", @Model.IdCategory)
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -38,6 +26,5 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
