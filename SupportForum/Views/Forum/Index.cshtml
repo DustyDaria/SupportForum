@@ -1,12 +1,18 @@
 ﻿@model IEnumerable<SupportForum.Models.TblForum>
 
 @{
-    ViewData["Title"] = "Index";
     Layout = "_Forum.cshtml";
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<h1>
+    @if(Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.IsModeration).FirstOrDefault() == true)
+    {
+        <a asp-action="Create" title="Создать форум" class="btn rounded-circle lh-1" type="button" >
+            <img src="/src/plus-circle-fill.svg" width="24" height="24" />
+        </a>
+    }
+    @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()</h1>
+
 
 @using (Html.BeginForm())
 {
