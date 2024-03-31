@@ -12,24 +12,20 @@
             <img src="/src/plus-circle-fill.svg" width="24" height="24" />
         </a>
     }
-    @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()</h1>
+    @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()
+</h1>
 
 <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasActionForum" aria-labelledby="offcanvasActionForumLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasActionForumLabel">Создание форума</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        
-        @await Component.InvokeAsync("CreateForum", new TblForum()
+    @{
+        ShowActionForm(new TblForum()
         { 
             IdInitiator = 1,
             IdCategory = Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault(),
             IdParent = null
-        })
-    </div>
+            },
+            "CreateForum", "Создание форума");
+    }
 </div>
-
 
 @using (Html.BeginForm())
 {
@@ -41,6 +37,16 @@
 }
 
 @functions {
+    public async void ShowActionForm(TblForum forum, string componentName, string actionName)
+    {
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasActionForumLabel">@actionName</h5>
+            <button onclick="btnActionFormClick" type="button" class="btn-close btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            @await Component.InvokeAsync(componentName, forum)
+        </div>
+    }
 
     public void ShowTreeData(IEnumerable<SupportForum.Models.TblForum> model)
     {
