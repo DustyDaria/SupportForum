@@ -19,10 +19,10 @@ public partial class TblTopic
     [Unicode(false)]
     public string Title { get; set; } = null!;
 
-    [Column("question")]
+    [Column("descriptions")]
     [StringLength(1000)]
     [Unicode(false)]
-    public string? Question { get; set; }
+    public string? Descriptions { get; set; }
 
     [Column("isAnonymous")]
     public bool? IsAnonymous { get; set; }
@@ -46,5 +46,5 @@ public partial class TblTopic
 
     [ForeignKey("IdTopic")]
     [InverseProperty("IdTopics")]
-    public virtual ICollection<TblKeyWord> IdKeyWords { get; set; } = new List<TblKeyWord>();
+    public virtual ICollection<TblTag> IdTags { get; set; } = new List<TblTag>();
 }

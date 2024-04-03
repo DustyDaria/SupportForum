@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SupportForum.Models;
 
-[Table("TBL_KEY_WORD")]
-[Index("KeyWord", Name = "KW_NAME_IX")]
-public partial class TblKeyWord
+[Table("TBL_TAG")]
+[Index("Tag", Name = "TT_NAME_IX")]
+public partial class TblTag
 {
     [Key]
     [Column("id", TypeName = "decimal(18, 0)")]
     public decimal Id { get; set; }
 
-    [Column("keyWord")]
+    [Column("tag")]
     [StringLength(100)]
     [Unicode(false)]
-    public string KeyWord { get; set; } = null!;
+    public string Tag { get; set; } = null!;
 
-    [ForeignKey("IdKeyWord")]
-    [InverseProperty("IdKeyWords")]
+    [ForeignKey("IdTag")]
+    [InverseProperty("IdTags")]
     public virtual ICollection<TblTopic> IdTopics { get; set; } = new List<TblTopic>();
 }

@@ -24,6 +24,9 @@ public partial class TblForum
     [Unicode(false)]
     public string? Descriptions { get; set; }
 
+    [Column("timeCreate", TypeName = "datetime")]
+    public DateTime TimeCreate { get; set; }
+
     [Column("idParent", TypeName = "decimal(18, 0)")]
     public decimal? IdParent { get; set; }
 

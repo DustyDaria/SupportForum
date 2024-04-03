@@ -18,6 +18,16 @@ public partial class TblUser
     [Unicode(false)]
     public string UserLogin { get; set; } = null!;
 
+    [Column("domen")]
+    [StringLength(60)]
+    [Unicode(false)]
+    public string Domen { get; set; } = null!;
+
+    [Column("mail")]
+    [StringLength(100)]
+    [Unicode(false)]
+    public string? Mail { get; set; }
+
     [Column("fullName")]
     [StringLength(200)]
     [Unicode(false)]
@@ -28,6 +38,15 @@ public partial class TblUser
 
     [Column("dateLastActivity", TypeName = "datetime")]
     public DateTime? DateLastActivity { get; set; }
+
+    [Column("isBlock")]
+    public bool? IsBlock { get; set; }
+
+    [InverseProperty("IdInitiatorNavigation")]
+    public virtual ICollection<TblAttachment> TblAttachments { get; set; } = new List<TblAttachment>();
+
+    [InverseProperty("IdInitiatorNavigation")]
+    public virtual ICollection<TblCategory> TblCategories { get; set; } = new List<TblCategory>();
 
     [InverseProperty("IdInitiatorNavigation")]
     public virtual ICollection<TblCommunication> TblCommunications { get; set; } = new List<TblCommunication>();

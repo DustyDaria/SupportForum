@@ -1,8 +1,8 @@
-﻿@model IEnumerable<SupportForum.Models.TblKeyWord>
+﻿@model IEnumerable<SupportForum.Models.TblTag>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/KeyWord/_KeyWord.cshtml";
+    Layout = "_Tag.cshtml";
 }
 
 <p>
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.KeyWord)
+                @Html.DisplayNameFor(model => model.Tag)
             </th>
             <th></th>
         </tr>
@@ -21,7 +21,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.KeyWord)
+                @Html.DisplayFor(modelItem => item.Tag)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

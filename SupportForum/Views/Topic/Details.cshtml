@@ -14,10 +14,10 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Question)
+            @Html.DisplayNameFor(model => model.Descriptions)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Question)
+            @Html.DisplayFor(model => model.Descriptions)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsAnonymous)
@@ -81,8 +81,8 @@
 
                     @if (item.TblReactions.Any())
                     {
-                        <p>Like = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.RLike == 1).Count())
-                        <p>Dislike = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.RDislike == 1).Count())
+                        <p>Like = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.IsLike == true).Count())
+                        <p>Dislike = </p>@Html.DisplayFor(reaction => item.TblReactions.Where(w => w.IsDislike == true).Count())
                     }
                     @if (item.InverseIdParentNavigation.Any())
                     {

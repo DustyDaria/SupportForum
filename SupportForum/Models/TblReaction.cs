@@ -13,11 +13,11 @@ public partial class TblReaction
     [Column("id", TypeName = "decimal(18, 0)")]
     public decimal Id { get; set; }
 
-    [Column("rLike")]
-    public int? RLike { get; set; }
+    [Column("isLike")]
+    public bool? IsLike { get; set; }
 
-    [Column("rDislike")]
-    public int? RDislike { get; set; }
+    [Column("isDislike")]
+    public bool? IsDislike { get; set; }
 
     [Column("idMsg", TypeName = "decimal(18, 0)")]
     public decimal IdMsg { get; set; }

@@ -76,15 +76,15 @@
                                             @foreach (var topic in item.TblTopics)
                                             {
                                                 <li class="list-group-item node-treeview10">
-                                                    <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Question)
+                                                    <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Descriptions)
                                                     <br />
                                                     <a href="/Topic/Edit/@topic.Id">Edit</a> |
                                                     <a href="/Topic/Details/@topic.Id">Details</a> |
                                                     <a href="/Topic/Delete/@topic.Id">Delete</a>
                                                     <br />
-                                                    @foreach (var keyWord in topic.IdKeyWords)
+                                                    @foreach (var tag in topic.IdTags)
                                                     {
-                                                        @Html.DisplayFor(kw => keyWord.KeyWord)
+                                                        @Html.DisplayFor(kw => tag.Tag)
                                                     }
                                                     <br />
                                                     @if (topic.IsAnonymous == true)

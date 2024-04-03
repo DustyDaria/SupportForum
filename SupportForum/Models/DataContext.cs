@@ -15,6 +15,8 @@ public partial class DataContext : DbContext
     {
     }
 
+    public virtual DbSet<TblAttachment> TblAttachments { get; set; }
+
     public virtual DbSet<TblCategory> TblCategories { get; set; }
 
     public virtual DbSet<TblCommunication> TblCommunications { get; set; }
@@ -23,9 +25,11 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<TblInstruction> TblInstructions { get; set; }
 
-    public virtual DbSet<TblKeyWord> TblKeyWords { get; set; }
+    public virtual DbSet<TblNews> TblNews { get; set; }
 
     public virtual DbSet<TblReaction> TblReactions { get; set; }
+
+    public virtual DbSet<TblTag> TblTags { get; set; }
 
     public virtual DbSet<TblTopic> TblTopics { get; set; }
 
@@ -40,11 +44,26 @@ public partial class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblAttachment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ATTACH_PK");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblAttachments)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("ATTACH_INITIATOR_FK");
+        });
+
         modelBuilder.Entity<TblCategory>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("CATEGORY_PK");
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblCategories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("CATEGORY_USER_FK");
         });
 
         modelBuilder.Entity<TblCommunication>(entity =>
@@ -88,9 +107,9 @@ public partial class DataContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
 
-        modelBuilder.Entity<TblKeyWord>(entity =>
+        modelBuilder.Entity<TblNews>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("KW_PK");
+            entity.HasKey(e => e.Id).HasName("NEWS_PK");
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
@@ -104,6 +123,13 @@ public partial class DataContext : DbContext
             entity.HasOne(d => d.IdMsgNavigation).WithMany(p => p.TblReactions)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("REACTION_MSG_FK");
+        });
+
+        modelBuilder.Entity<TblTag>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("TAG_PK");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<TblTopic>(entity =>
@@ -120,27 +146,27 @@ public partial class DataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("TOPIC_USER_FK");
 
-            entity.HasMany(d => d.IdKeyWords).WithMany(p => p.IdTopics)
+            entity.HasMany(d => d.IdTags).WithMany(p => p.IdTopics)
                 .UsingEntity<Dictionary<string, object>>(
-                    "TblTopicKeyWord",
-                    r => r.HasOne<TblKeyWord>().WithMany()
-                        .HasForeignKey("IdKeyWord")
+                    "TblTopicTag",
+                    r => r.HasOne<TblTag>().WithMany()
+                        .HasForeignKey("IdTag")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("TKW_KW_FK"),
+                        .HasConstraintName("TTT_TAG_FK"),
                     l => l.HasOne<TblTopic>().WithMany()
                         .HasForeignKey("IdTopic")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("TKW_TOPIC_FK"),
+                        .HasConstraintName("TTT_TOPIC_FK"),
                     j =>
                     {
-                        j.HasKey("IdTopic", "IdKeyWord").HasName("PK__TBL_TOPI__321BD9865FE66C29");
-                        j.ToTable("TBL_TOPIC_KEY_WORD");
+                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AE2ACA34A4");
+                        j.ToTable("TBL_TOPIC_TAG");
                         j.IndexerProperty<decimal>("IdTopic")
                             .HasColumnType("decimal(18, 0)")
                             .HasColumnName("idTopic");
-                        j.IndexerProperty<decimal>("IdKeyWord")
+                        j.IndexerProperty<decimal>("IdTag")
                             .HasColumnType("decimal(18, 0)")
-                            .HasColumnName("idKeyWord");
+                            .HasColumnName("idTag");
                     });
         });
 

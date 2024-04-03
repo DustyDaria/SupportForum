@@ -24,7 +24,7 @@ namespace SupportForum.Controllers
             var dataContext = _context.TblTopics
                 .Include(t => t.IdForumNavigation)
                 .Include(t => t.IdInitiatorNavigation)
-                .Include(t => t.IdKeyWords)
+                .Include(t => t.IdTags)
                 .Include(t => t.TblCommunications);
             return View(await dataContext.ToListAsync());
         }
@@ -40,7 +40,7 @@ namespace SupportForum.Controllers
             var tblTopic = await _context.TblTopics
                 .Include(t => t.IdForumNavigation)
                 .Include(t => t.IdInitiatorNavigation)
-                .Include(t => t.IdKeyWords)
+                .Include(t => t.IdTags)
                 .Include(t => t.TblCommunications)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblTopic == null)
