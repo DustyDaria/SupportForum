@@ -1,4 +1,7 @@
 ﻿@addTagHelper *, ViewComponentSample
+@using Microsoft.AspNetCore.Components;
+@addTagHelper *, RazorPages
+
 @model IEnumerable<SupportForum.Models.TblForum>
 
 @{
@@ -8,23 +11,21 @@
 <h1>
     @if(Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.IsModeration).FirstOrDefault() == true)
     {
-        <a title="Создать форум" class="btn rounded-circle lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum">
-            <img src="/src/plus-circle-fill.svg" width="24" height="24" />
+        <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum" 
+            onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() );" >
+            <img src="/src/person-plus.svg" width="24" height="24" />
         </a>
     }
     @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()
 </h1>
 
 <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasActionForum" aria-labelledby="offcanvasActionForumLabel">
-    @{
-        ShowActionForm(new TblForum()
-        { 
-            IdInitiator = 1,
-            IdCategory = Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault(),
-            IdParent = null
-            },
-            "CreateForum", "Создание форума");
-    }
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasActionForumLabel"></h5>
+        <button type="button" class="btn-close btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="pnlOffcanvasBody">
+    </div>
 </div>
 
 @using (Html.BeginForm())
@@ -37,17 +38,7 @@
 }
 
 @functions {
-    public async void ShowActionForm(TblForum forum, string componentName, string actionName)
-    {
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasActionForumLabel">@actionName</h5>
-            <button onclick="btnActionFormClick" type="button" class="btn-close btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            @await Component.InvokeAsync(componentName, forum)
-        </div>
-    }
-
+    
     public void ShowTreeData(IEnumerable<SupportForum.Models.TblForum> model)
     {
         <ul class="list-group">
@@ -64,6 +55,10 @@
                             </h2>
                             <div id="branch_@item.Id" class="accordion-collapse collapse show" aria-labelledby="hdr_@item.Id" data-bs-parent="#forumTreeView_@item.Id">
                                 <div class="accordion-body">
+                                    <a title="Создать вложенный форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                        onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() , @item.Id);" >
+                                        <img src="/src/person-plus-fill.svg" width="24" height="24" />
+                                    </a>
                                     <a href="/Forum/Edit/@item.Id">Edit</a> |
                                     <a href="/Forum/Details/@item.Id">Details</a> |
                                     <a href="/Forum/Delete/@item.Id">Delete</a>

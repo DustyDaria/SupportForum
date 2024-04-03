@@ -13,15 +13,10 @@ namespace SupportForum.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(decimal idInitiator, 
-            decimal? idCategory, decimal? idParent)
+        public async Task<IViewComponentResult> InvokeAsync(TblForum tblForum)
         {
             ViewData["Errors"] = new List<string>();
-            return View(new TblForum() { 
-                IdInitiator = idInitiator, 
-                IdCategory = idCategory, 
-                IdParent = idParent });
+            return View(tblForum);
         }
-
     }
 }

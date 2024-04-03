@@ -18,6 +18,15 @@ namespace SupportForum.Controllers
             _context = context;
         }
 
+        public IActionResult GetCreateForumVC(decimal idInitiator, decimal? idCategory, decimal? idParent = null)
+        {
+            return ViewComponent("CreateForum", new TblForum(){
+                IdInitiator = idInitiator,
+                IdCategory = idCategory,
+                IdParent = idParent
+            });
+        }
+
         /// <summary>
         /// GET: All Forums by category
         /// </summary>
