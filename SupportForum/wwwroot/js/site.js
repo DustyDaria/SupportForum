@@ -20,3 +20,29 @@ function GetCreateForumVC(IdInitiator, IdCategory, IdParent = null) {
         $("#pnlOffcanvasBody").text(JSON.stringify(xhdr));
     });
 }
+
+function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
+    GetActionForumVC("/Topic/GetCreateTopicVC",
+        {
+            idInitiator: IdInitiator,
+            idForum: IdForum,
+            idForumCat: IdForumCat
+        },
+        "Создать вопрос");
+}
+
+function GetActionForumVC(urlVC, dataObject, headerText) {
+    $.ajax({
+        type: "GET",
+        url: urlVC,
+        data: dataObject
+
+    }).done(function (data, statusText, xhdr) {
+        console.log("Done");
+        $("#pnlOffcanvasBody").html(data);
+        $("#offcanvasActionForumLabel").text(headerText);
+    }).fail(function (xhdr, statusText, errorText) {
+        console.log("Failed");
+        $("#pnlOffcanvasBody").text(JSON.stringify(xhdr));
+    });
+}

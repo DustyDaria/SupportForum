@@ -74,6 +74,10 @@
                                                onclick="GetCreateForumVC(1,@Model.Category.Id ,@item.Id );">
                                         <img src="/src/person-plus-fill.svg" width="24" height="24" />
                                     </a>
+                                            <a title="Создать вопрос" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                               onclick="GetCreateTopicVC(1,@item.Id ,@Model.Category.Id );">
+                                                <img src="/src/question-circle.svg" width="24" height="24" />
+                                            </a>
                                         </div>
                                     </div>
                                     <br />

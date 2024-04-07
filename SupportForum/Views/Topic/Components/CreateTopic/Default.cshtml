@@ -1,0 +1,35 @@
+﻿@model SupportForum.Models.TopicViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Topic.Title" class="control-label"></label>
+                <input asp-for="Topic.Title" class="form-control" />
+                <span asp-validation-for="Topic.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.Descriptions" class="control-label"></label>
+                <input asp-for="Topic.Descriptions" class="form-control" />
+                <span asp-validation-for="Topic.Descriptions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic.IsAnonymous" class="control-label"></label>
+                <input asp-for="Topic.IsAnonymous" class="form-control" />
+                <span asp-validation-for="Topic.IsAnonymous" class="text-danger"></span>
+            </div>
+
+            @Html.Hidden("Topic.IdInitiator", @Model.Topic.IdInitiator)
+            @Html.Hidden("Topic.IdForum", @Model.Topic.IdForum)
+            @Html.Hidden("Topic.TimeCreate", DateTime.Now)
+            @Html.Hidden("IdForumCategory", @Model.IdForumCategory)
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

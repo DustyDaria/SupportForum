@@ -51,12 +51,19 @@ namespace SupportForum.Controllers
             return View(tblTopic);
         }
 
-        // GET: Topic/Create
-        public IActionResult Create()
+        public IActionResult GetCreateTopicVC(decimal idInitiator, decimal idForum, decimal idForumCat)
         {
-            ViewData["IdForum"] = new SelectList(_context.TblForums, "Id", "Id");
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id");
-            return View();
+            var topic = new TblTopic()
+            {
+                IdInitiator = idInitiator,
+                IdForum = idForum
+            }; 
+
+            return ViewComponent("CreateTopic", new TopicViewModel()
+            {
+                Topic = topic,
+                IdForumCategory = idForumCat
+            });
         }
 
         // POST: Topic/Create
@@ -64,17 +71,22 @@ namespace SupportForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Question,IsAnonymous,IdForum,IdInitiator")] TblTopic tblTopic)
+        public async Task<IActionResult> Create([Bind("IdForumCategory,Topic")] TopicViewModel topicVM)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tblTopic);
+                _context.Add(topicVM.Topic);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
             }
-            ViewData["IdForum"] = new SelectList(_context.TblForums, "Id", "Id", tblTopic.IdForum);
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id", tblTopic.IdInitiator);
-            return View(tblTopic);
+            ViewData["Errors"] = ModelState.Select(x => x.Value.Errors)
+                            .Where(y => y.Count > 0)
+                            .ToList();
+            return ViewComponent("CreateTopic", new
+            {
+                idInitiator = topicVM.Topic.IdInitiator,
+                idForum = topicVM.Topic.IdForum
+            });
         }
 
         // GET: Topic/Edit/5
