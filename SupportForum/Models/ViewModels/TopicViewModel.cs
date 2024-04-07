@@ -1,4 +1,4 @@
-﻿namespace SupportForum.Models
+﻿namespace SupportForum.Models.ViewModels
 {
     public class TopicViewModel
     {

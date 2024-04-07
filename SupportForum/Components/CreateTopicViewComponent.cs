@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SupportForum.Models;
+using SupportForum.Models.ViewModels;
 
 namespace SupportForum.Components
 {

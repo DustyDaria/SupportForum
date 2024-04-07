@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupportForum.Models;
+using SupportForum.Models.ViewModels;
 using System.Diagnostics;
 
 namespace SupportForum.Controllers
@@ -32,7 +32,7 @@ namespace SupportForum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Feedback([Bind("type, message")] Feedback feedback)
+        public async Task<IActionResult> Feedback([Bind("type, message")] FeedbackViewModel feedback)
         {
             
             return View();

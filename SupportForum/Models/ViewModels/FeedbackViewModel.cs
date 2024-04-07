@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SupportForum.Models
+namespace SupportForum.Models.ViewModels
 {
-    public class Feedback
+    public class FeedbackViewModel
     {
         public FeedbackType type { get; set; }
 
