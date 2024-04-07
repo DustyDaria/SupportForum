@@ -55,7 +55,7 @@ namespace SupportForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Descriptions,IsModeration")] TblCategory tblCategory)
+        public async Task<IActionResult> Create([Bind("Id,Title,Descriptions,IsModeration,IdInitiator,TimeCreate")] TblCategory tblCategory)
         {
             if (ModelState.IsValid)
             {
