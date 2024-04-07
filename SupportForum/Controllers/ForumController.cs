@@ -22,7 +22,7 @@ namespace SupportForum.Controllers
         /// GET: All Forums by category
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index(decimal? idCategory)
+        public IActionResult Index(decimal? idCategory)
         {
             var forums = _context.TblForums
                 .Include(t => t.IdCategoryNavigation)
@@ -30,8 +30,18 @@ namespace SupportForum.Controllers
                 .Include(t => t.IdParentNavigation)
                 .Include(t => t.TblTopics)
                 .Where(w => w.IdCategory == idCategory || w.IdCategory == null)
-                .ToListAsync();
-            return forums == null ? NotFound() : View(await forums);
+                .ToList();
+            var category = _context.TblCategories
+                    .Where(w => w.Id == idCategory)
+                    .First();
+
+            ForumViewModel forumVM = new ForumViewModel()
+            {
+                Category = category,
+                Forums = forums
+            };
+
+            return View(forumVM);
         }
 
         // GET: Forum/Details/5

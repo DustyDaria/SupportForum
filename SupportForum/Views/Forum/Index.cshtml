@@ -2,21 +2,21 @@
 @using Microsoft.AspNetCore.Components;
 @addTagHelper *, RazorPages
 
-@model IEnumerable<SupportForum.Models.TblForum>
+@model SupportForum.Models.ForumViewModel
 
 @{
     Layout = "_Forum.cshtml";
 }
 
 <h1>
-    @if(Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.IsModeration).FirstOrDefault() == true)
+    @if(Model.Category.IsModeration == true)
     {
-        <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum" 
-            onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() );" >
+        <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" 
+            aria-controls="offcanvasActionForum" onclick="GetCreateForumVC(1,@Model.Category.Id );" >
             <img src="/src/person-plus.svg" width="24" height="24" />
         </a>
     }
-    @Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategoryNavigation.Title).FirstOrDefault()
+    @Model.Category.Title
 </h1>
 
 <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasActionForum" aria-labelledby="offcanvasActionForumLabel">
@@ -32,7 +32,7 @@
 {
     <div class="treeview" id="forumTreeView">
         @{
-            ShowTreeData(Model.Where(w => w.IdParent == null).Select(s => s));
+            ShowTreeData(Model.Forums);
         }
     </div>
 }
@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="d-flex flex-row">
                                     <a title="Создать вложенный форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
-                                               onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() , @item.Id);">
+                                               onclick="GetCreateForumVC(1,@Model.Category.Id ,@item.Id );">
                                         <img src="/src/person-plus-fill.svg" width="24" height="24" />
                                     </a>
                                         </div>
