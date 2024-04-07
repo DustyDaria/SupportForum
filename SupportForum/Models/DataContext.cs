@@ -159,7 +159,7 @@ public partial class DataContext : DbContext
                         .HasConstraintName("TTT_TOPIC_FK"),
                     j =>
                     {
-                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AE2ACA34A4");
+                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AEFAB70EFC");
                         j.ToTable("TBL_TOPIC_TAG");
                         j.IndexerProperty<decimal>("IdTopic")
                             .HasColumnType("decimal(18, 0)")

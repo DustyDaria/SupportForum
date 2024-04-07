@@ -24,6 +24,9 @@ public partial class TblTopic
     [Unicode(false)]
     public string? Descriptions { get; set; }
 
+    [Column("timeCreate", TypeName = "datetime")]
+    public DateTime TimeCreate { get; set; }
+
     [Column("isAnonymous")]
     public bool? IsAnonymous { get; set; }
 
@@ -35,11 +38,11 @@ public partial class TblTopic
 
     [ForeignKey("IdForum")]
     [InverseProperty("TblTopics")]
-    public virtual TblForum IdForumNavigation { get; set; } = null!;
+    public virtual TblForum? IdForumNavigation { get; set; } = null!;
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblTopics")]
-    public virtual TblUser IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; } = null!;
 
     [InverseProperty("IdTopicNavigation")]
     public virtual ICollection<TblCommunication> TblCommunications { get; set; } = new List<TblCommunication>();
