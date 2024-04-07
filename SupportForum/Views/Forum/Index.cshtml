@@ -50,21 +50,33 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="hdr_@item.Id">
                                 <button class="forum-icon accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#branch_@item.Id" aria-expanded="true" aria-controls="branch_@item.Id">
-                                    @Html.DisplayFor(modelItem => item.Title) | @Html.DisplayFor(modelItem => item.Descriptions)
+                                    @Html.DisplayFor(modelItem => item.Title)
                                 </button>
                             </h2>
                             <div id="branch_@item.Id" class="accordion-collapse collapse show" aria-labelledby="hdr_@item.Id" data-bs-parent="#forumTreeView_@item.Id">
                                 <div class="accordion-body">
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <div class="d-flex flex-column">
+                                            <div class="d-flex">
+                                                <span>@Html.DisplayFor(modelItem => item.Descriptions) <a href="/Forum/Details/@item.Id">...<img src="/src/arrow-right.svg" width="24" height="24" /></a></span>
+                                            </div>
+                                            <div class="d-flex flex-row">
+                                                <a href="/Forum/Edit/@item.Id"><img src="/src/pencil-square.svg" width="24" height="24"/></a> 
+                                                <a href="/Forum/Delete/@item.Id"><img src="/src/bucket.svg" width="24" height="24" /></a>
+                                            </div>
+                                            <div class="d-flex flex-row">
+                                                <span><a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a></span>
+                                                <span> @Html.DisplayFor(modelItem => item.TimeCreate)</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row">
                                     <a title="Создать вложенный форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
-                                        onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() , @item.Id);" >
+                                               onclick="GetCreateForumVC(1,@Model.Where(w => w.IdParent == null && w.IdCategory != null).Select(s => s.IdCategory).FirstOrDefault() , @item.Id);">
                                         <img src="/src/person-plus-fill.svg" width="24" height="24" />
                                     </a>
-                                    <a href="/Forum/Edit/@item.Id">Edit</a> |
-                                    <a href="/Forum/Details/@item.Id">Details</a> |
-                                    <a href="/Forum/Delete/@item.Id">Delete</a>
+                                        </div>
+                                    </div>
                                     <br />
-                                    <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
-
                                     @if (item.TblTopics.Any())
                                     {
                                         <ul class="list-group">
