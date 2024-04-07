@@ -18,15 +18,6 @@ namespace SupportForum.Controllers
             _context = context;
         }
 
-        public IActionResult GetCreateForumVC(decimal idInitiator, decimal? idCategory, decimal? idParent = null)
-        {
-            return ViewComponent("CreateForum", new TblForum(){
-                IdInitiator = idInitiator,
-                IdCategory = idCategory,
-                IdParent = idParent
-            });
-        }
-
         /// <summary>
         /// GET: All Forums by category
         /// </summary>
@@ -65,12 +56,22 @@ namespace SupportForum.Controllers
             return View(tblForum);
         }
 
+        public IActionResult GetCreateForumVC(decimal idInitiator, decimal? idCategory, decimal? idParent = null)
+        {
+            return ViewComponent("CreateForum", new TblForum()
+            {
+                IdInitiator = idInitiator,
+                IdCategory = idCategory,
+                IdParent = idParent
+            });
+        }
+
         // POST: Forum/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Descriptions,IdParent,IdInitiator,IdCategory")] TblForum tblForum)
+        public async Task<IActionResult> Create([Bind("Id,Title,Descriptions,IdParent,IdInitiator,IdCategory,TimeCreate")] TblForum tblForum)
         {
             if (ModelState.IsValid)
             {

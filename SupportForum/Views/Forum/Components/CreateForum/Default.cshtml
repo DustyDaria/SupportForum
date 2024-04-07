@@ -18,6 +18,7 @@
             @Html.Hidden("IdParent", @Model.IdParent)
             @Html.Hidden("IdInitiator", @Model.IdInitiator)
             @Html.Hidden("IdCategory", @Model.IdCategory)
+            @Html.Hidden("TimeCreate", DateTime.Now)
             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
