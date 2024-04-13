@@ -1,24 +1,26 @@
-﻿@model SupportForum.Models.TblForum
+﻿@model SupportForum.Models.ViewModels.ForumViewModel
 
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Forum" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Forum.Title" class="control-label"></label>
+                <input asp-for="Forum.Title" class="form-control" />
+                <span asp-validation-for="Forum.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descriptions" class="control-label"></label>
-                <input asp-for="Descriptions" class="form-control" />
-                <span asp-validation-for="Descriptions" class="text-danger"></span>
+                <label asp-for="Forum.Descriptions" class="control-label"></label>
+                <input asp-for="Forum.Descriptions" class="form-control" />
+                <span asp-validation-for="Forum.Descriptions" class="text-danger"></span>
             </div>
 
-            @Html.Hidden("IdParent", @Model.IdParent)
-            @Html.Hidden("IdInitiator", @Model.IdInitiator)
-            @Html.Hidden("IdCategory", @Model.IdCategory)
-            @Html.Hidden("TimeCreate", DateTime.Now)
+            @Html.Hidden("Forum.IdParent", @Model.Forum.IdParent)
+            @Html.Hidden("Forum.IdInitiator", @Model.Forum.IdInitiator)
+            @Html.Hidden("Forum.IdCategory", @Model.Forum.IdCategory)
+            @Html.Hidden("Forum.TimeCreate", DateTime.Now)
+
+            @Html.Hidden("IdForumCategory", Model.IdForumCategory)
             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

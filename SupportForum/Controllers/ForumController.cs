@@ -64,14 +64,27 @@ namespace SupportForum.Controllers
             return View(tblForum);
         }
 
-        public IActionResult GetCreateForumVC(decimal idInitiator, decimal? idCategory, decimal? idParent = null)
+        public IActionResult GetCreateForumVC(decimal idInitiator, decimal idCategory, decimal? idParent = null)
         {
-            return ViewComponent("CreateForum", new TblForum()
+            ForumViewModel forumVM;
+            if(idParent == null)
             {
-                IdInitiator = idInitiator,
-                IdCategory = idCategory,
-                IdParent = idParent
-            });
+                forumVM = new ForumViewModel()
+                {
+                    Forum = new TblForum() { IdInitiator = idInitiator, IdCategory = idCategory },
+                    IdForumCategory = idCategory
+                };
+        }
+            else
+            {
+                forumVM = new ForumViewModel()
+                {
+                    Forum = new TblForum() { IdInitiator = idInitiator, IdParent = idParent },
+                    IdForumCategory = idCategory
+                };
+            }
+
+            return ViewComponent("CreateForum", forumVM);
         }
 
         // POST: Forum/Create
@@ -79,24 +92,19 @@ namespace SupportForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Descriptions,IdParent,IdInitiator,IdCategory,TimeCreate")] TblForum tblForum)
+        public async Task<IActionResult> Create([Bind("Forum,IdForumCategory")] ForumViewModel forumVM)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tblForum);
+                _context.Add(forumVM.Forum);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { idCategory = tblForum.IdCategory });
+                return RedirectToAction("Index", new { idCategory = forumVM.IdForumCategory });
             }
 
-            ViewData["Errors"] = ModelState.Select(x => x.Value.Errors)
+            ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
                            .Where(y => y.Count > 0)
                            .ToList();
-            return ViewComponent("CreateForum", new
-            {
-                idInitiator = tblForum.IdInitiator,
-                idCategory = tblForum.IdCategory,
-                idParent = tblForum.IdParent
-            });
+            return GetCreateForumVC(forumVM.Forum.IdInitiator, forumVM.IdForumCategory, forumVM.Forum.IdParent);
         }
 
         // GET: Forum/Edit/5

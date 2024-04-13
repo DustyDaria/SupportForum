@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SupportForum.Models;
+using SupportForum.Models.ViewModels;
 
 namespace SupportForum.ViewComponents
 {
@@ -13,7 +14,7 @@ namespace SupportForum.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(TblForum tblForum)
+        public async Task<IViewComponentResult> InvokeAsync(ForumViewModel tblForum)
         {
             ViewData["Errors"] = new List<string>();
             return View(tblForum);
