@@ -12,7 +12,7 @@
     @if(Model.Category.IsModeration == true)
     {
         <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" 
-            aria-controls="offcanvasActionForum" onclick="GetCreateForumVC(1,@Model.Category.Id );" >
+           aria-controls="offcanvasActionForum" onclick="GetCreateForumVC(1,@Model.Category.Id );">
             <img src="/src/person-plus.svg" width="24" height="24" />
         </a>
     }
