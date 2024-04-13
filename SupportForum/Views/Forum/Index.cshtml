@@ -32,7 +32,7 @@
 {
     <div class="treeview" id="forumTreeView">
         @{
-            ShowTreeData(Model.Forums);
+            ShowTreeData(Model.Forums.Where(w => w.IdParent == null && w.IdCategory != null));
         }
     </div>
 }
