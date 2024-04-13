@@ -36,11 +36,7 @@ namespace SupportForum.Controllers
                     .Where(w => w.Id == idCategory)
                     .First();
 
-            ForumViewModel forumVM = new ForumViewModel()
-            {
-                Category = category,
-                Forums = forums
-            };
+            ForumsTreeViewModel forumVM = new ForumsTreeViewModel(category, forums);
 
             return View(forumVM);
         }
