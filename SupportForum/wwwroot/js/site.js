@@ -23,6 +23,15 @@ function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
         "Создать вопрос");
 }
 
+function GetEditForumVC(IdForum, IdForumCat) {
+    GetActionForumVC("/Forum/GetEditForumVC",
+        {
+            idForum: IdForum,
+            idForumCat: IdForumCat
+        },
+        "Редактировать форум");
+}
+
 function GetActionForumVC(urlVC, dataObject, headerText) {
     $.ajax({
         type: "GET",

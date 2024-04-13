@@ -74,7 +74,7 @@ namespace SupportForum.Controllers
                     Forum = new TblForum() { IdInitiator = idInitiator, IdCategory = idCategory },
                     IdForumCategory = idCategory
                 };
-        }
+            }
             else
             {
                 forumVM = new ForumViewModel()
@@ -107,23 +107,21 @@ namespace SupportForum.Controllers
             return GetCreateForumVC(forumVM.Forum.IdInitiator, forumVM.IdForumCategory, forumVM.Forum.IdParent);
         }
 
-        // GET: Forum/Edit/5
-        public async Task<IActionResult> Edit(decimal? id)
+        public async Task<IActionResult> GetEditForumVC(decimal idForum, decimal idForumCat)
         {
-            if (id == null || _context.TblForums == null)
+            if (_context.TblForums == null)
             {
                 return NotFound();
             }
 
-            var tblForum = await _context.TblForums.FindAsync(id);
-            if (tblForum == null)
+            var forum = await _context.TblForums.FindAsync(idForum);
+            if(forum == null) return NotFound();
+
+            return ViewComponent("EditForum", new ForumViewModel()
             {
-                return NotFound();
-            }
-            ViewData["IdCategory"] = new SelectList(_context.TblCategories, "Id", "Id", tblForum.IdCategory);
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id", tblForum.IdInitiator);
-            ViewData["IdParent"] = new SelectList(_context.TblForums, "Id", "Id", tblForum.IdParent);
-            return View(tblForum);
+                Forum = forum,
+                IdForumCategory = idForumCat
+            });
         }
 
         // POST: Forum/Edit/5
@@ -131,23 +129,21 @@ namespace SupportForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("Id,Title,Descriptions,IdParent,IdInitiator,IdCategory")] TblForum tblForum)
+        public async Task<IActionResult> Edit([Bind("IdForumCategory,Forum")] ForumViewModel forumVM)
         {
-            if (id != tblForum.Id)
-            {
+            if (_context.TblForums == null || forumVM.IdForumCategory == 0 || forumVM.Forum.Id == 0) 
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(tblForum);
+                    _context.Update(forumVM.Forum);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblForumExists(tblForum.Id))
+                    if (!TblForumExists(forumVM.Forum.Id))
                     {
                         return NotFound();
                     }
@@ -156,12 +152,19 @@ namespace SupportForum.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { idCategory = forumVM.IdForumCategory });
             }
-            ViewData["IdCategory"] = new SelectList(_context.TblCategories, "Id", "Id", tblForum.IdCategory);
-            ViewData["IdInitiator"] = new SelectList(_context.TblUsers, "Id", "Id", tblForum.IdInitiator);
-            ViewData["IdParent"] = new SelectList(_context.TblForums, "Id", "Id", tblForum.IdParent);
-            return View(tblForum);
+
+            ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
+                           .Where(y => y?.Count > 0)
+                           .ToList();
+            var forum = await _context.TblForums.FindAsync(forumVM.Forum.Id);
+            if (forum == null) return NotFound();
+            return ViewComponent("EditForum", new ForumViewModel()
+            {
+                Forum = forum,
+                IdForumCategory = forumVM.IdForumCategory
+            });
         }
 
         // GET: Forum/Delete/5

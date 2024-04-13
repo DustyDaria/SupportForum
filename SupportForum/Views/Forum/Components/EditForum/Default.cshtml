@@ -1,0 +1,30 @@
+﻿@model SupportForum.Models.ViewModels.ForumViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Forum" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Forum.Id" />
+            <div class="form-group">
+                <label asp-for="@Model.Forum.Title" class="control-label"></label>
+                <input asp-for="@Model.Forum.Title" class="form-control" />
+                <span asp-validation-for="@Model.Forum.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Forum.Descriptions" class="control-label"></label>
+                <input asp-for="@Model.Forum.Descriptions" class="form-control" />
+                <span asp-validation-for="@Model.Forum.Descriptions" class="text-danger"></span>
+            </div>
+
+            @Html.Hidden("Forum.TimeCreate", Model.Forum.TimeCreate)
+            @Html.Hidden("Forum.IdParent", Model.Forum.IdParent)
+            @Html.Hidden("Forum.IdInitiator", Model.Forum.IdInitiator)
+            @Html.Hidden("Forum.IdCategory", Model.Forum.IdCategory)
+            @Html.Hidden("IdForumCategory", Model.IdForumCategory)
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
