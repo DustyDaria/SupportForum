@@ -2,7 +2,7 @@
 {
     public class ForumViewModel
     {
-        public TblCategory Category { get; set; }
-        public virtual ICollection<TblForum> Forums { get; set; } = new List<TblForum>();
+        public TblForum Forum { get; set; }
+        public decimal IdForumCategory { get; set; }
     }
 }
