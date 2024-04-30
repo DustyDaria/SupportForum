@@ -41,6 +41,15 @@ function GetEditForumVC(IdForum, IdForumCat) {
         "Редактировать форум");
 }
 
+function GetEditTopicVC(IdTopic, IdForumCat) {
+    GetActionForumVC("/Topic/GetEditTopicVC",
+        {
+            idTopic: IdTopic,
+            idForumCat: IdForumCat
+        },
+        "Редактировать вопрос");
+}
+
 function GetActionForumVC(urlVC, dataObject, headerText) {
     $.ajax({
         type: "GET",

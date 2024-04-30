@@ -11,7 +11,7 @@
 <h1>
     @if(Model.Category.IsModeration == true)
     {
-        <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" 
+        <a title="Создать форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum"
            aria-controls="offcanvasActionForum" onclick="GetCreateForumVC(1,@Model.Category.Id );">
             <img src="/src/person-plus.svg" width="24" height="24" />
         </a>
@@ -76,10 +76,10 @@
                                             </div>
                                         </div>
                                         <div class="d-flex flex-row">
-                                    <a title="Создать вложенный форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                            <a title="Создать вложенный форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
                                                onclick="GetCreateForumVC(1,@Model.Category.Id ,@item.Id );">
-                                        <img src="/src/person-plus-fill.svg" width="24" height="24" />
-                                    </a>
+                                                <img src="/src/person-plus-fill.svg" width="24" height="24" />
+                                            </a>
                                             <a title="Создать вопрос" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
                                                onclick="GetCreateTopicVC(1,@item.Id ,@Model.Category.Id );">
                                                 <img src="/src/question-circle.svg" width="24" height="24" />
@@ -93,25 +93,38 @@
                                             @foreach (var topic in item.TblTopics)
                                             {
                                                 <li class="list-group-item node-treeview10">
-                                                    <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a> | @Html.DisplayFor(topicItem => topic.Descriptions)
-                                                    <br />
-                                                    <a href="/Topic/Edit/@topic.Id">Edit</a> |
-                                                    <a href="/Topic/Details/@topic.Id">Details</a> |
-                                                    <a href="/Topic/Delete/@topic.Id">Delete</a>
-                                                    <br />
-                                                    @foreach (var tag in topic.IdTags)
-                                                    {
-                                                        @Html.DisplayFor(kw => tag.Tag)
-                                                    }
-                                                    <br />
-                                                    @if (topic.IsAnonymous == true)
-                                                    {
-                                                        <label>Анонимный вопрос</label>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a>
-                                                    }
+                                                    <div class="d-flex flex-row justify-content-between">
+                                                        <div class="d-flex flex-column">
+                                                            <div class="d-flex">
+                                                                <a href="#" class="topic-icon" style="color:inherit;">@Html.DisplayFor(topicItem => topic.Title)</a>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <span>@Html.DisplayFor(topicItem => topic.Descriptions) <a href="/Topic/Details/@topic.Id">...<img src="/src/arrow-right.svg" width="24" height="24" /></a></span>
+                                                            </div>
+                                                            <div class="d-flex flex-row">
+                                                                <a title="Редактировать вопрос" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                                                    onclick="GetEditTopicVC(@topic.Id , @Model.Category.Id );">
+                                                                     <img src="/src/pencil-square.svg" width="24" height="24" /></a>
+                                                                <a href="/Topic/Delete/@topic.Id">Delete</a>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                            @foreach (var tag in topic.IdTags)
+                                                            {
+                                                                @Html.DisplayFor(kw => tag.Tag)
+                                                            }
+                                                            <br />
+                                                            @if (topic.IsAnonymous == true)
+                                                            {
+                                                                <label>Анонимный вопрос</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span><a href="/User/Details/@topic.IdInitiator"> @Html.DisplayFor(modelItem => topic.IdInitiatorNavigation.FullName)</a></span>
+                                                                <span> @Html.DisplayFor(modelItem => topic.TimeCreate)</span>
+                                                            }
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             }
                                         </ul>
