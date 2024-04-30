@@ -65,7 +65,10 @@
                                                    onclick="GetEditForumVC(@item.Id , @Model.Category.Id );">
                                                     <img src="/src/pencil-square.svg" width="24" height="24" />
                                                 </a>
-                                                <a href="/Forum/Delete/@item.Id"><img src="/src/bucket.svg" width="24" height="24" /></a>
+                                                <a title="Удалить форум" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                                   onclick="GetDeleteForumVC(@item.Id , @Model.Category.Id );">
+                                                    <img src="/src/bucket.svg" width="24" height="24" />
+                                                </a>
                                             </div>
                                             <div class="d-flex flex-row">
                                                 <span><a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a></span>

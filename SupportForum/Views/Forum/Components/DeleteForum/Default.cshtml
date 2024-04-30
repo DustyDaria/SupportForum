@@ -1,0 +1,33 @@
+﻿@model SupportForum.Models.ViewModels.ForumViewModel
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Forum.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Forum.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Forum.Descriptions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Forum.Descriptions)
+        </dd>
+
+        @Html.Hidden("Forum.IdCategoryNavigation", Model.Forum.IdCategoryNavigation)
+        @Html.Hidden("Forum.IdCategoryNavigation.Id", Model.Forum.IdCategoryNavigation?.Id)
+        @Html.Hidden("Forum.IdInitiatorNavigation", Model.Forum.IdInitiatorNavigation)
+        @Html.Hidden("Forum.IdInitiatorNavigation.Id", Model.Forum.IdInitiatorNavigation?.Id)
+        @Html.Hidden("Forum.IdParentNavigation", Model.Forum.IdParentNavigation)
+        @Html.Hidden("Forum.IdParentNavigation.Id", Model.Forum.IdParentNavigation?.Id)
+        @Html.Hidden("IdForumCategory", Model.IdForumCategory)
+
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Forum.Id" />
+        <input type="hidden" asp-for="IdForumCategory" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+</div>

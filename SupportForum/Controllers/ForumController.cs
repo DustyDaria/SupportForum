@@ -167,44 +167,47 @@ namespace SupportForum.Controllers
             });
         }
 
-        // GET: Forum/Delete/5
-        public async Task<IActionResult> Delete(decimal? id)
+        public async Task<IActionResult> GetDeleteForumVC(decimal idForum, decimal idForumCat)
         {
-            if (id == null || _context.TblForums == null)
-            {
-                return NotFound();
-            }
+            if (_context.TblForums == null) return Problem("Entity set 'DataContext.TblForums'  is null.");
 
-            var tblForum = await _context.TblForums
+            var forum = await _context.TblForums
                 .Include(t => t.IdCategoryNavigation)
                 .Include(t => t.IdInitiatorNavigation)
                 .Include(t => t.IdParentNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tblForum == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.Id == idForum);
+            if (forum == null) return NotFound();
 
-            return View(tblForum);
+            return ViewComponent("DeleteForum", new ForumViewModel()
+            {
+                Forum = forum,
+                IdForumCategory = idForumCat
+            });
         }
 
         // POST: Forum/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(decimal id)
+        public IActionResult DeleteConfirmed([Bind("IdForumCategory,Forum")] ForumViewModel forumVM)
         {
-            if (_context.TblForums == null)
+            if (_context.TblForums == null) return Problem("Entity set 'DataContext.TblForums'  is null.");
+            if (forumVM.IdForumCategory == 0 || forumVM.Forum.Id == 0) return NotFound();
+
+            try
             {
-                return Problem("Entity set 'DataContext.TblForums'  is null.");
+                if (_context.Database.ExecuteSql($"dbo.sp_delForumTree @idForumNode = {forumVM.Forum.Id}") > 0)
+                    return RedirectToAction("Index", new { idCategory = forumVM.IdForumCategory });
+                else
+                {
+                    ViewData["Errors"] = "Ошибка при удалении данных";
+                    return ViewComponent("DeleteForum", forumVM);
+                }
             }
-            var tblForum = await _context.TblForums.FindAsync(id);
-            if (tblForum != null)
+            catch (Exception exc)
             {
-                _context.TblForums.Remove(tblForum);
+                ViewData["Errors"] = exc.Message;
+                return ViewComponent("DeleteForum", forumVM);
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool TblForumExists(decimal id)

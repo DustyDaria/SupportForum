@@ -23,6 +23,15 @@ function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
         "Создать вопрос");
 }
 
+function GetDeleteForumVC(IdForum, IdForumCat) {
+    GetActionForumVC("/Forum/GetDeleteForumVC",
+        {
+            idForum: IdForum,
+            idForumCat: IdForumCat
+        },
+        "Вы уверены, что хотите удалить этот форум?");
+}
+
 function GetEditForumVC(IdForum, IdForumCat) {
     GetActionForumVC("/Forum/GetEditForumVC",
         {
