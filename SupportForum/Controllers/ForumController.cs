@@ -45,10 +45,9 @@ namespace SupportForum.Controllers
         // GET: Forum/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
-            if (id == null || _context.TblForums == null)
-            {
-                return NotFound();
-            }
+            if (_context.TblForums == null) return Problem("Entity set 'DataContext.TblForums'  is null.");
+
+            if (id == null) return NotFound();
 
             var tblForum = await _context.TblForums
                 .Include(t => t.IdCategoryNavigation)
@@ -56,10 +55,7 @@ namespace SupportForum.Controllers
                 .Include(t => t.IdParentNavigation)
                 .Include(t => t.TblTopics)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tblForum == null)
-            {
-                return NotFound();
-            }
+            if (tblForum == null) return NotFound();
 
             return View(tblForum);
         }
@@ -102,17 +98,14 @@ namespace SupportForum.Controllers
             }
 
             ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
-                           .Where(y => y.Count > 0)
+                           .Where(y => y?.Count > 0)
                            .ToList();
             return GetCreateForumVC(forumVM.Forum.IdInitiator, forumVM.IdForumCategory, forumVM.Forum.IdParent);
         }
 
         public async Task<IActionResult> GetEditForumVC(decimal idForum, decimal idForumCat)
         {
-            if (_context.TblForums == null)
-            {
-                return NotFound();
-            }
+            if (_context.TblForums == null) return Problem("Entity set 'DataContext.TblForums'  is null.");
 
             var forum = await _context.TblForums.FindAsync(idForum);
             if(forum == null) return NotFound();
@@ -131,8 +124,9 @@ namespace SupportForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("IdForumCategory,Forum")] ForumViewModel forumVM)
         {
-            if (_context.TblForums == null || forumVM.IdForumCategory == 0 || forumVM.Forum.Id == 0) 
-                return NotFound();
+            if (_context.TblForums == null) return Problem("Entity set 'DataContext.TblForums'  is null.");
+
+            if (forumVM.IdForumCategory == 0 || forumVM.Forum.Id == 0) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -143,14 +137,8 @@ namespace SupportForum.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblForumExists(forumVM.Forum.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!TblForumExists(forumVM.Forum.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction("Index", new { idCategory = forumVM.IdForumCategory });
             }
@@ -210,9 +198,7 @@ namespace SupportForum.Controllers
             }
         }
 
-        private bool TblForumExists(decimal id)
-        {
-          return (_context.TblForums?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        private bool TblForumExists(decimal id) 
+            => (_context.TblForums?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }
