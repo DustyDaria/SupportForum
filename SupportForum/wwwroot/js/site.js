@@ -31,6 +31,14 @@ function GetDeleteForumVC(IdForum, IdForumCat) {
         },
         "Вы уверены, что хотите удалить этот форум?");
 }
+function GetDeleteTopicVC(IdTopic, IdForumCat) {
+    GetActionForumVC("/Topic/GetDeleteTopicVC",
+        {
+            idTopic: IdTopic,
+            idForumCat: IdForumCat
+        },
+        "Вы уверены, что хотите удалить этот вопрос?");
+}
 
 function GetEditForumVC(IdForum, IdForumCat) {
     GetActionForumVC("/Forum/GetEditForumVC",

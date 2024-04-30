@@ -105,7 +105,10 @@
                                                                 <a title="Редактировать вопрос" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
                                                                     onclick="GetEditTopicVC(@topic.Id , @Model.Category.Id );">
                                                                      <img src="/src/pencil-square.svg" width="24" height="24" /></a>
-                                                                <a href="/Topic/Delete/@topic.Id">Delete</a>
+                                                                <a title="Удалить вопрос" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                                                                   onclick="GetDeleteTopicVC(@topic.Id , @Model.Category.Id );">
+                                                                    <img src="/src/bucket.svg" width="24" height="24" />
+                                                                </a>
                                                             </div>
                                                             <div class="d-flex">
                                                             @foreach (var tag in topic.IdTags)

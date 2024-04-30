@@ -142,43 +142,48 @@ namespace SupportForum.Controllers
             });
         }
 
-        // GET: Topic/Delete/5
-        public async Task<IActionResult> Delete(decimal? id)
+        public async Task<IActionResult> GetDeleteTopicVC(decimal idTopic, decimal idForumCat)
         {
-            if (id == null || _context.TblTopics == null)
-            {
-                return NotFound();
-            }
+            if (_context.TblTopics == null) return Problem("Entity set 'DataContext.TblTopics'  is null.");
 
-            var tblTopic = await _context.TblTopics
+            var topic = await _context.TblTopics
                 .Include(t => t.IdForumNavigation)
                 .Include(t => t.IdInitiatorNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tblTopic == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.Id == idTopic);
+            if (topic == null) return NotFound();
 
-            return View(tblTopic);
+            return ViewComponent("DeleteTopic", new TopicViewModel()
+            {
+                Topic = topic,
+                IdForumCategory = idForumCat
+            });
         }
 
         // POST: Topic/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed([Bind("IdForumCategory,Topic")] TopicViewModel topicVM)
         {
-            if (_context.TblTopics == null)
+            if (_context.TblTopics == null) return Problem("Entity set 'DataContext.TblTopics'  is null.");
+            if (topicVM.IdForumCategory == 0 || topicVM.Topic.Id == 0) return NotFound();
+
+            try
             {
-                return Problem("Entity set 'DataContext.TblTopics'  is null.");
+                var tblTopic = await _context.TblTopics.FindAsync(topicVM.Topic.Id);
+                if (tblTopic != null)
+                {
+                    _context.TblTopics.Remove(tblTopic);
+                }
+
+                await _context.SaveChangesAsync();
             }
-            var tblTopic = await _context.TblTopics.FindAsync(id);
-            if (tblTopic != null)
+            catch (Exception exc)
             {
-                _context.TblTopics.Remove(tblTopic);
+                ViewData["Errors"] = exc.Message;
+                return ViewComponent("DeleteTopic", topicVM);
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
         }
 
         private bool TblTopicExists(decimal id)
