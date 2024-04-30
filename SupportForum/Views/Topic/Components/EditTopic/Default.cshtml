@@ -23,7 +23,7 @@
 
             @Html.Hidden("Topic.IdInitiator", @Model.Topic.IdInitiator)
             @Html.Hidden("Topic.IdForum", @Model.Topic.IdForum)
-            @Html.Hidden("Topic.TimeCreate", DateTime.Now)
+            @Html.Hidden("Topic.TimeCreate", Model.Topic.TimeCreate)
             @Html.Hidden("IdForumCategory", @Model.IdForumCategory)
             
             <div class="form-group">
