@@ -55,9 +55,15 @@
 {
     @using (Html.BeginForm())
     {
+        <h4>Обсуждение</h4>
+        <a title="Добавить к обсуждению" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+           onclick="GetCreateCommunicationVC(1, @Model.Id );">
+            <img src="/src/chat-left-text.svg" width="24" height="24" />
+        </a>
+
         <div class="treeview">
             @{
-                ShowTreeMessage(Model.TblCommunications);
+                ShowTreeMessage(Model.TblCommunications.Where(w => w.IdParent == null && w.IdTopic != null));
             }
         </div>
     }
@@ -66,7 +72,7 @@
 
 @functions {
 
-    public void ShowTreeMessage(ICollection<SupportForum.Models.TblCommunication> model)
+    public void ShowTreeMessage(IEnumerable<SupportForum.Models.TblCommunication> model)
     {
         <ul class="list-group">
             @foreach (var item in model)
@@ -94,3 +100,11 @@
     }
 }
 
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasActionForum" aria-labelledby="offcanvasActionForumLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasActionForumLabel"></h5>
+        <button type="button" class="btn-close btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="pnlOffcanvasBody">
+    </div>
+</div>

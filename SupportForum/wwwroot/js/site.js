@@ -73,3 +73,13 @@ function GetActionVC(urlVC, dataObject, headerText) {
         $("#pnlOffcanvasBody").text(JSON.stringify(xhdr));
     });
 }
+
+function GetCreateCommunicationVC(IdInitiator, IdTopic, IdParent = null) {
+    GetActionVC("/Communication/GetCreateCommunicationVC",
+        {
+            idInitiator: IdInitiator,
+            idTopic: IdTopic,
+            idParent: IdParent
+        },
+        IdParent == null ? "Добавить к обсуждению" : "Ответить");
+}
