@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 function GetCreateForumVC(IdInitiator, IdCategory, IdParent = null) {
-    GetActionForumVC("/Forum/GetCreateForumVC",
+    GetActionVC("/Forum/GetCreateForumVC",
         {
             idInitiator: IdInitiator,
             idCategory: IdCategory,
@@ -14,7 +14,7 @@ function GetCreateForumVC(IdInitiator, IdCategory, IdParent = null) {
 }
 
 function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
-    GetActionForumVC("/Topic/GetCreateTopicVC",
+    GetActionVC("/Topic/GetCreateTopicVC",
         {
             idInitiator: IdInitiator,
             idForum: IdForum,
@@ -24,7 +24,7 @@ function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
 }
 
 function GetDeleteForumVC(IdForum, IdForumCat) {
-    GetActionForumVC("/Forum/GetDeleteForumVC",
+    GetActionVC("/Forum/GetDeleteForumVC",
         {
             idForum: IdForum,
             idForumCat: IdForumCat
@@ -32,7 +32,7 @@ function GetDeleteForumVC(IdForum, IdForumCat) {
         "Вы уверены, что хотите удалить этот форум?");
 }
 function GetDeleteTopicVC(IdTopic, IdForumCat) {
-    GetActionForumVC("/Topic/GetDeleteTopicVC",
+    GetActionVC("/Topic/GetDeleteTopicVC",
         {
             idTopic: IdTopic,
             idForumCat: IdForumCat
@@ -41,7 +41,7 @@ function GetDeleteTopicVC(IdTopic, IdForumCat) {
 }
 
 function GetEditForumVC(IdForum, IdForumCat) {
-    GetActionForumVC("/Forum/GetEditForumVC",
+    GetActionVC("/Forum/GetEditForumVC",
         {
             idForum: IdForum,
             idForumCat: IdForumCat
@@ -50,7 +50,7 @@ function GetEditForumVC(IdForum, IdForumCat) {
 }
 
 function GetEditTopicVC(IdTopic, IdForumCat) {
-    GetActionForumVC("/Topic/GetEditTopicVC",
+    GetActionVC("/Topic/GetEditTopicVC",
         {
             idTopic: IdTopic,
             idForumCat: IdForumCat
@@ -58,7 +58,7 @@ function GetEditTopicVC(IdTopic, IdForumCat) {
         "Редактировать вопрос");
 }
 
-function GetActionForumVC(urlVC, dataObject, headerText) {
+function GetActionVC(urlVC, dataObject, headerText) {
     $.ajax({
         type: "GET",
         url: urlVC,
