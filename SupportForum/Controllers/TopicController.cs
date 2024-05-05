@@ -169,6 +169,9 @@ namespace SupportForum.Controllers
 
             try
             {
+                // В начале удалим все сообщения
+                if (await _context.Database.ExecuteSqlAsync($"dbo.sp_GetCommunicationByTopicForDel @idTopicNode = {topicVM.Topic.Id}") > 0)
+                {
                 var tblTopic = await _context.TblTopics.FindAsync(topicVM.Topic.Id);
                 if (tblTopic != null)
                 {
@@ -176,14 +179,19 @@ namespace SupportForum.Controllers
                 }
 
                 await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
+                }   
+                else
+                {
+                    ViewData["Errors"] = "Ошибка при удалении данных";
+                    return Problem("Ошибка при удалении данных");
+                }
             }
             catch (Exception exc)
             {
                 ViewData["Errors"] = exc.Message;
-                return ViewComponent("DeleteTopic", topicVM);
+                return Problem(exc.Message);
             }
-
-            return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
         }
 
         private bool TblTopicExists(decimal id)
