@@ -33,10 +33,7 @@ namespace SupportForum.Controllers
         // GET: Topic/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
-            if (id == null || _context.TblTopics == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.TblTopics == null) return NotFound();
 
             var tblTopic = await _context.TblTopics
                 .Include(t => t.IdForumNavigation)
@@ -44,10 +41,7 @@ namespace SupportForum.Controllers
                 .Include(t => t.IdTags)
                 .Include(t => t.TblCommunications)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tblTopic == null)
-            {
-                return NotFound();
-            }
+            if (tblTopic == null) return NotFound();
 
             return View(tblTopic);
         }
@@ -80,8 +74,8 @@ namespace SupportForum.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
             }
-            ViewData["Errors"] = ModelState.Select(x => x.Value.Errors)
-                            .Where(y => y.Count > 0)
+            ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
+                            .Where(y => y?.Count > 0)
                             .ToList();
             return ViewComponent("CreateTopic", new
             {
@@ -172,13 +166,13 @@ namespace SupportForum.Controllers
                 // В начале удалим все сообщения
                 if (await _context.Database.ExecuteSqlAsync($"dbo.sp_GetCommunicationByTopicForDel @idTopicNode = {topicVM.Topic.Id}") > 0)
                 {
-                var tblTopic = await _context.TblTopics.FindAsync(topicVM.Topic.Id);
-                if (tblTopic != null)
-                {
-                    _context.TblTopics.Remove(tblTopic);
-                }
-
-                await _context.SaveChangesAsync();
+                    var tblTopic = await _context.TblTopics.FindAsync(topicVM.Topic.Id);
+                    if (tblTopic != null)
+                    {
+                        _context.TblTopics.Remove(tblTopic);
+                    }
+                    
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Forum", new { idCategory = topicVM.IdForumCategory });
                 }   
                 else
@@ -195,8 +189,6 @@ namespace SupportForum.Controllers
         }
 
         private bool TblTopicExists(decimal id)
-        {
-          return (_context.TblTopics?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+            => (_context.TblTopics?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }
