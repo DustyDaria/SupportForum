@@ -10,7 +10,7 @@ function GetCreateForumVC(IdInitiator, IdCategory, IdParent = null) {
             idCategory: IdCategory,
             idParent: IdParent
         },
-        IdParent == null ? "Создать вложенный форум" : "Создать форум");
+        IdParent == null ? "Создать форум" : "Создать вложенный форум");
 }
 
 function GetCreateTopicVC(IdInitiator, IdForum, IdForumCat) {
