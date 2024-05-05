@@ -79,15 +79,13 @@ public partial class DataContext : DbContext
             entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation).HasConstraintName("MSG_PARENT_FK");
 
             entity.HasOne(d => d.IdTopicNavigation).WithMany(p => p.TblCommunications)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("MSG_TOPIK_FK");
         });
 
         modelBuilder.Entity<TblForum>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("FORUM_PK");
-
-            entity.ToTable("TBL_FORUM", tb => tb.HasTrigger("DEL_FORUM_TREE"));
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
@@ -138,9 +136,7 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.TblTopics)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("TOPIC_FORUM_FK");
+            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.TblTopics).HasConstraintName("TOPIC_FORUM_FK");
 
             entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblTopics)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -159,7 +155,7 @@ public partial class DataContext : DbContext
                         .HasConstraintName("TTT_TOPIC_FK"),
                     j =>
                     {
-                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AEFAB70EFC");
+                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AE55DA016C");
                         j.ToTable("TBL_TOPIC_TAG");
                         j.IndexerProperty<decimal>("IdTopic")
                             .HasColumnType("decimal(18, 0)")

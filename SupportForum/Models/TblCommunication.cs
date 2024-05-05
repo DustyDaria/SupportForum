@@ -37,7 +37,7 @@ public partial class TblCommunication
     public decimal IdInitiator { get; set; }
 
     [Column("idTopic", TypeName = "decimal(18, 0)")]
-    public decimal IdTopic { get; set; }
+    public decimal? IdTopic { get; set; }
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblCommunications")]
@@ -49,7 +49,7 @@ public partial class TblCommunication
 
     [ForeignKey("IdTopic")]
     [InverseProperty("TblCommunications")]
-    public virtual TblTopic IdTopicNavigation { get; set; } = null!;
+    public virtual TblTopic? IdTopicNavigation { get; set; }
 
     [InverseProperty("IdParentNavigation")]
     public virtual ICollection<TblCommunication> InverseIdParentNavigation { get; set; } = new List<TblCommunication>();
