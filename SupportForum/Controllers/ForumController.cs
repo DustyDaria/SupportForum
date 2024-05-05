@@ -188,13 +188,12 @@ namespace SupportForum.Controllers
                 else
                 {
                     ViewData["Errors"] = "Ошибка при удалении данных";
-                    return ViewComponent("DeleteForum", forumVM);
+                    return Problem("Ошибка при удалении данных");
                 }
             }
             catch (Exception exc)
             {
-                ViewData["Errors"] = exc.Message;
-                return ViewComponent("DeleteForum", forumVM);
+                return Problem(exc.Message);
             }
         }
 
