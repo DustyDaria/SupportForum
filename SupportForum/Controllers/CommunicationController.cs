@@ -15,11 +15,11 @@ namespace SupportForum.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> GetCreateCommunicationVC(decimal idInitiator, decimal idTopic, decimal? idParent = null)
+        public IActionResult GetCreateCommunicationVC(decimal? idInitiator, decimal idTopic, decimal? idParent = null)
         {
+            if (idInitiator == null || idInitiator <= 0) return NotFound();
+
             CommunicationViewModel cmnVM;
-            var user = await _context.TblUsers
-                .FirstAsync(w => w.Id == idInitiator);
             if (idParent == null)
             {
                 cmnVM = new CommunicationViewModel()
@@ -27,7 +27,6 @@ namespace SupportForum.Controllers
                     Communication = new TblCommunication() 
                     { 
                         IdInitiator = idInitiator, 
-                        IdInitiatorNavigation = user,
                         IdTopic = idTopic 
                     },
                     IdTopic = idTopic
@@ -40,7 +39,6 @@ namespace SupportForum.Controllers
                     Communication = new TblCommunication() 
                     { 
                         IdInitiator = idInitiator, 
-                        IdInitiatorNavigation = user,
                         IdParent = idParent 
                     },
                     IdTopic = idTopic
@@ -56,10 +54,6 @@ namespace SupportForum.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmnVM.Communication.IdInitiatorNavigation = await _context.TblUsers
-                    .Where(w => w.Id == cmnVM.Communication.IdInitiator)
-                    .Select(s => s)
-                    .FirstAsync();
                 _context.Add(cmnVM.Communication);
                 await _context.SaveChangesAsync();
                 
@@ -74,7 +68,8 @@ namespace SupportForum.Controllers
             ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
                            .Where(y => y?.Count > 0)
                            .ToList();
-            return await GetCreateCommunicationVC(cmnVM.Communication.IdInitiator, cmnVM.IdTopic, cmnVM.Communication.IdParent);
+            return GetCreateCommunicationVC(cmnVM.Communication.IdInitiator == null ? 0 : (decimal)cmnVM.Communication.IdInitiator, 
+                cmnVM.IdTopic, cmnVM.Communication.IdParent);
         }
     }
 }
