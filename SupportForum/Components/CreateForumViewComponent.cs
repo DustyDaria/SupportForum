@@ -14,10 +14,10 @@ namespace SupportForum.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(ForumViewModel tblForum)
+        public async Task<IViewComponentResult> InvokeAsync(ForumViewModel forumVM)
         {
             ViewData["Errors"] = new List<string>();
-            return View(tblForum);
+            return View(forumVM);
         }
     }
 }
