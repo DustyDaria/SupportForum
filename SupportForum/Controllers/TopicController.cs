@@ -19,31 +19,36 @@ namespace SupportForum.Controllers
             _context = context;
         }
 
-        // GET: Topic
-        public async Task<IActionResult> Index()
-        {
-            var dataContext = _context.TblTopics
-                .Include(t => t.IdForumNavigation)
-                .Include(t => t.IdInitiatorNavigation)
-                .Include(t => t.IdTags)
-                .Include(t => t.TblCommunications);
-            return View(await dataContext.ToListAsync());
-        }
-
-        // GET: Topic/Details/5
+        // GET: Topic/Details/id
         public async Task<IActionResult> Details(decimal? id)
         {
             if (id == null || _context.TblTopics == null) return NotFound();
-
+            
             var tblTopic = await _context.TblTopics
                 .Include(t => t.IdForumNavigation)
                 .Include(t => t.IdInitiatorNavigation)
-                .Include(t => t.IdTags)
                 .Include(t => t.TblCommunications)
+                .Include(t => t.IdTags)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblTopic == null) return NotFound();
 
-            return View(tblTopic);
+            var topicVM = new TopicViewModel()
+            {
+                Topic = tblTopic,
+                IdForumCategory = null
+            };
+
+            foreach(var item in tblTopic.TblCommunications)
+            {
+                topicVM.communicationVM.AddRange(await _context.TblCommunications
+                    .Where(w => w.CmnPath.Contains(item.CmnPath))
+                    .Include(t => t.IdParentNavigation)
+                    .Include(t => t.InverseIdParentNavigation)
+                    //.Include(t => t.IdInitiatorNavigation)
+                    .ToListAsync());
+            }
+
+            return View(topicVM);
         }
 
         public IActionResult GetCreateTopicVC(decimal idInitiator, decimal idForum, decimal idForumCat)
