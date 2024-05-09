@@ -62,6 +62,12 @@ namespace SupportForum.Controllers
                     .FirstAsync();
                 _context.Add(cmnVM.Communication);
                 await _context.SaveChangesAsync();
+                
+                cmnVM.Communication.CmnPath = _context.TblCommunications
+                    .Where(w => w.Id == cmnVM.Communication.IdParent)
+                    .Select(s => s.CmnPath).FirstOrDefault() + $"{cmnVM.Communication.Id}/";
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Details", "Topic", new { id = cmnVM.IdTopic });
             }
 
