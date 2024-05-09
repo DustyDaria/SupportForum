@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using SupportForum.Helper;
 using SupportForum.Models;
 using SupportForum.Models.ViewModels;
 
@@ -60,8 +61,11 @@ namespace SupportForum.Controllers
             return View(tblForum);
         }
 
-        public IActionResult GetCreateForumVC(decimal idInitiator, decimal idCategory, decimal? idParent = null)
+        public IActionResult GetCreateForumVC(decimal? idInitiator, decimal idCategory, decimal? idParent = null)
         {
+            if (idInitiator == null || idInitiator <= 0)
+                return Problem(Error.IncorrectInitiator);
+
             ForumViewModel forumVM;
             if(idParent == null)
             {
@@ -100,7 +104,8 @@ namespace SupportForum.Controllers
             ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
                            .Where(y => y?.Count > 0)
                            .ToList();
-            return GetCreateForumVC(forumVM.Forum.IdInitiator, forumVM.IdForumCategory, forumVM.Forum.IdParent);
+            return GetCreateForumVC((decimal)forumVM.Forum.IdInitiator, 
+                forumVM.IdForumCategory, forumVM.Forum.IdParent);
         }
 
         public async Task<IActionResult> GetEditForumVC(decimal idForum, decimal idForumCat)

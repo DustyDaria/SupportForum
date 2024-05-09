@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using SupportForum.Helper;
 using SupportForum.Models;
 using SupportForum.Models.ViewModels;
 
@@ -17,7 +18,8 @@ namespace SupportForum.Controllers
 
         public IActionResult GetCreateCommunicationVC(decimal? idInitiator, decimal idTopic, decimal? idParent = null)
         {
-            if (idInitiator == null || idInitiator <= 0) return NotFound();
+            if (idInitiator == null || idInitiator <= 0)
+                return Problem(Error.IncorrectInitiator);
 
             CommunicationViewModel cmnVM;
             if (idParent == null)
@@ -68,7 +70,7 @@ namespace SupportForum.Controllers
             ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
                            .Where(y => y?.Count > 0)
                            .ToList();
-            return GetCreateCommunicationVC(cmnVM.Communication.IdInitiator == null ? 0 : (decimal)cmnVM.Communication.IdInitiator, 
+            return GetCreateCommunicationVC((decimal)cmnVM.Communication.IdInitiator, 
                 cmnVM.IdTopic, cmnVM.Communication.IdParent);
         }
     }

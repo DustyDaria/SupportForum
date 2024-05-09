@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SupportForum.Helper;
 using SupportForum.Models;
 using SupportForum.Models.ViewModels;
 
@@ -51,8 +52,10 @@ namespace SupportForum.Controllers
             return View(topicVM);
         }
 
-        public IActionResult GetCreateTopicVC(decimal idInitiator, decimal idForum, decimal idForumCat)
+        public IActionResult GetCreateTopicVC(decimal? idInitiator, decimal idForum, decimal idForumCat)
         {
+            if (idInitiator == null || idInitiator <= 0)
+                return Problem(Error.IncorrectInitiator);
             var topic = new TblTopic()
             {
                 IdInitiator = idInitiator,
