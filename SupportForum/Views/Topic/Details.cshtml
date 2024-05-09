@@ -1,4 +1,4 @@
-﻿@model SupportForum.Models.TblTopic
+﻿@model SupportForum.Models.ViewModels.TopicViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -8,30 +8,24 @@
 <div>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Topic.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Topic.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descriptions)
+            @Html.DisplayNameFor(model => model.Topic.Descriptions)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descriptions)
+            @Html.DisplayFor(model => model.Topic.Descriptions)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAnonymous)
+            @Html.DisplayNameFor(model => model.Topic.IdForumNavigation)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsAnonymous)
+            @Html.DisplayFor(model => model.Topic.IdForumNavigation.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdForumNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdForumNavigation.Id)
-        </dd>
-        @if(Model.IsAnonymous == true)
+        @if (Model.Topic.IsAnonymous == true)
         {
             <dt class="col-sm-2">
                 <label>Анонимный вопрос</label>
@@ -40,34 +34,35 @@
         else
         {
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.IdInitiatorNavigation)
+                @Html.DisplayNameFor(model => model.Topic.IdInitiatorNavigation)
             </dt>
         }
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdInitiatorNavigation.Id)
+            @Html.DisplayFor(model => model.Topic.IdInitiatorNavigation.Id)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Topic.Id">Edit</a>
 </div>
-@if(Model.TblCommunications.Any())
+@using (Html.BeginForm())
 {
-    @using (Html.BeginForm())
+    <h4>Обсуждение</h4>
+    <a title="Добавить к обсуждению" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+       onclick="GetCreateCommunicationVC(1, @Model.Topic.Id );">
+        <img src="/src/chat-left-text.svg" width="24" height="24" />
+    </a>
+    
+    @if (Model.Topic.TblCommunications.Any())
     {
-        <h4>Обсуждение</h4>
-        <a title="Добавить к обсуждению" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
-           onclick="GetCreateCommunicationVC(1, @Model.Id );">
-            <img src="/src/chat-left-text.svg" width="24" height="24" />
-        </a>
-
         <div class="treeview">
             @{
-                ShowTreeMessage(Model.TblCommunications.Where(w => w.IdParent == null && w.IdTopic != null));
+                ShowTreeMessage(Model.communicationVM.Where(w => w.IdParent == null && w.IdTopic != null));
             }
         </div>
     }
 }
+
 
 
 @functions {
@@ -84,6 +79,11 @@
                     <br />
                     @Html.DisplayFor(modelItem => item.TimeCreate)
                     <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>
+
+                    <a title="Ответить" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                       onclick="GetCreateCommunicationVC(1, @Model.Topic.Id , @item.Id );">
+                        <img src="/src/chat-left-text.svg" width="24" height="24" />
+                    </a>
 
                     @if (item.TblReactions.Any())
                     {
