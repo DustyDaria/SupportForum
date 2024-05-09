@@ -76,6 +76,10 @@
                     @Html.DisplayFor(modelItem => item.TextMsg) ->@Html.DisplayFor(modelItem => item.IsAnswer) ->@Html.DisplayFor(modelItem => item.Estimate)
                     <br />
                     <a href="/Topic/EditMessage/@item.Id">Edit</a> ->@Html.DisplayFor(modelItem => item.IsEdit)
+                    <a title="Редактировать сообщение" class="btn rounded-circle lh-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasActionForum" aria-controls="offcanvasActionForum"
+                       onclick="GetEditCommunicationVC(@item.Id , @Model.Topic.Id );">
+                        <img src="/src/pencil-square.svg" width="24" height="24" />
+                    </a>
                     <br />
                     @Html.DisplayFor(modelItem => item.TimeCreate)
                     <a href="/User/Details/@item.IdInitiator"> @Html.DisplayFor(modelItem => item.IdInitiatorNavigation.FullName)</a>

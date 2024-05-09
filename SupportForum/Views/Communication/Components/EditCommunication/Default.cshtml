@@ -1,0 +1,34 @@
+﻿@model SupportForum.Models.ViewModels.CommunicationViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Communication" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Communication.Id" />
+            <div class="form-group">
+                <label asp-for="Communication.TextMsg" class="control-label"></label>
+                <input asp-for="Communication.TextMsg" class="form-control" />
+                <span asp-validation-for="Communication.TextMsg" class="text-danger"></span>
+            </div>
+
+            @Html.HiddenFor(model => model.Communication.IdParent)
+            @Html.HiddenFor(model => model.Communication.IdTopic)
+            @Html.HiddenFor(model => model.Communication.TimeCreate)
+            @Html.HiddenFor(model => model.Communication.Estimate)
+            @Html.HiddenFor(model => model.Communication.CmnPath)
+            @Html.HiddenFor(model => model.Communication.IsAnswer)
+            @Html.HiddenFor(model => model.Communication.TblReactions)
+            @Html.Hidden("Communication.IsEdit", true)
+
+            @Html.HiddenFor(model => model.IdTopic)
+            @Html.HiddenFor(model => model.Communication.IdInitiator)
+
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

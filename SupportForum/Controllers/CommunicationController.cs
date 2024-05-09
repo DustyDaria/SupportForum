@@ -73,5 +73,57 @@ namespace SupportForum.Controllers
             return GetCreateCommunicationVC((decimal)cmnVM.Communication.IdInitiator, 
                 cmnVM.IdTopic, cmnVM.Communication.IdParent);
         }
+
+        public async Task<IActionResult> GetEditCommunicationVC(decimal idCmn, decimal idTopic)
+        {
+            if (_context.TblCommunications == null) return Problem("Entity set 'DataContext.TblCommunications'  is null.");
+
+            var cmn = await _context.TblCommunications.FindAsync(idCmn);
+            if (cmn == null) return NotFound();
+
+            return ViewComponent("EditCommunication", new CommunicationViewModel()
+            {
+                Communication = cmn,
+                IdTopic = idTopic
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("Communication,IdTopic")] CommunicationViewModel cmnVM)
+        {
+            if (_context.TblCommunications == null) return Problem(Error.EntityIsNull(_context.TblCommunications));
+
+            if (cmnVM.IdTopic == 0 || cmnVM.Communication.Id == 0) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(cmnVM.Communication);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TblCommunicationExists(cmnVM.Communication.Id)) return NotFound();
+                    else throw;
+                }
+                return RedirectToAction("Details", "Topic", new { id = cmnVM.IdTopic });
+
+            }
+            ViewData["Errors"] = ModelState.Select(x => x.Value?.Errors)
+                           .Where(y => y?.Count > 0)
+                           .ToList();
+            var cmn = await _context.TblCommunications.FindAsync(cmnVM.Communication.Id);
+            if (cmn == null) return NotFound();
+            return ViewComponent("EditCommunication", new CommunicationViewModel()
+            {
+                Communication = cmn,
+                IdTopic = cmnVM.IdTopic
+            });
+        }
+
+        private bool TblCommunicationExists(decimal id)
+            => (_context.TblCommunications?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

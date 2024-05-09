@@ -83,3 +83,12 @@ function GetCreateCommunicationVC(IdInitiator, IdTopic, IdParent = null) {
         },
         IdParent == null ? "Добавить к обсуждению" : "Ответить");
 }
+
+function GetEditCommunicationVC(IdCommunication, IdTopic) {
+    GetActionVC("/Communication/GetEditCommunicationVC",
+        {
+            idCmn: IdCommunication,
+            idTopic: IdTopic
+        },
+        "Редактировать сообщение");
+}
