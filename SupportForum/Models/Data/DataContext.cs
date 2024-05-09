@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using SupportForum.Models.Data;
 
-namespace SupportForum.Models.Data;
+namespace SupportForum.Models;
 
 public partial class DataContext : DbContext
 {
@@ -16,6 +17,8 @@ public partial class DataContext : DbContext
     }
 
     public virtual DbSet<TblAttachment> TblAttachments { get; set; }
+
+    public virtual DbSet<TblBaseEntity> TblBaseEntities { get; set; }
 
     public virtual DbSet<TblCategory> TblCategories { get; set; }
 
@@ -35,8 +38,6 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<TblUser> TblUsers { get; set; }
 
-    public virtual DbSet<TblValueAttribute> TblValueAttributes { get; set; }
-
     string? connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()
         .GetSection("ConnectionStrings")["DefaultConnection"];
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,6 +52,13 @@ public partial class DataContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblAttachments).HasConstraintName("ATTACH_INITIATOR_FK");
+        });
+
+        modelBuilder.Entity<TblBaseEntity>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("VA_FK");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<TblCategory>(entity =>
@@ -159,13 +167,6 @@ public partial class DataContext : DbContext
         modelBuilder.Entity<TblUser>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("USER_PK");
-
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
-        });
-
-        modelBuilder.Entity<TblValueAttribute>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("VA_FK");
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });

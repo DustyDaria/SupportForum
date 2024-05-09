@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Models;
+namespace SupportForum.Models.Data;
 
-[Table("TBL_VALUE_ATTRIBUTES")]
-public partial class TblValueAttribute
+[Table("TBL_BASE_ENTITY")]
+public partial class TblBaseEntity
 {
     [Key]
     [Column("id", TypeName = "decimal(18, 0)")]
