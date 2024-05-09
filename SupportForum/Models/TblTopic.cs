@@ -31,18 +31,18 @@ public partial class TblTopic
     public bool? IsAnonymous { get; set; }
 
     [Column("idForum", TypeName = "decimal(18, 0)")]
-    public decimal IdForum { get; set; }
+    public decimal? IdForum { get; set; }
 
     [Column("idInitiator", TypeName = "decimal(18, 0)")]
-    public decimal IdInitiator { get; set; }
+    public decimal? IdInitiator { get; set; }
 
     [ForeignKey("IdForum")]
     [InverseProperty("TblTopics")]
-    public virtual TblForum? IdForumNavigation { get; set; } = null!;
+    public virtual TblForum? IdForumNavigation { get; set; }
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblTopics")]
-    public virtual TblUser? IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; }
 
     [InverseProperty("IdTopicNavigation")]
     public virtual ICollection<TblCommunication> TblCommunications { get; set; } = new List<TblCommunication>();

@@ -27,19 +27,19 @@ public partial class TblForum
     [Column("timeCreate", TypeName = "datetime")]
     public DateTime TimeCreate { get; set; }
 
+    [Column("forumPath")]
+    [StringLength(3000)]
+    [Unicode(false)]
+    public string? ForumPath { get; set; }
+
     [Column("idParent", TypeName = "decimal(18, 0)")]
     public decimal? IdParent { get; set; }
 
     [Column("idInitiator", TypeName = "decimal(18, 0)")]
-    public decimal IdInitiator { get; set; }
+    public decimal? IdInitiator { get; set; }
 
     [Column("idCategory", TypeName = "decimal(18, 0)")]
     public decimal? IdCategory { get; set; }
-
-    [Column("cmdPath")]
-    [StringLength(3000)]
-    [Unicode(false)]
-    public string? CmdPath { get; set; }
 
     [ForeignKey("IdCategory")]
     [InverseProperty("TblForums")]
@@ -47,7 +47,7 @@ public partial class TblForum
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblForums")]
-    public virtual TblUser? IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; }
 
     [ForeignKey("IdParent")]
     [InverseProperty("InverseIdParentNavigation")]

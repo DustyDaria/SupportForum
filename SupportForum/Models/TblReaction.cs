@@ -20,9 +20,9 @@ public partial class TblReaction
     public bool? IsDislike { get; set; }
 
     [Column("idMsg", TypeName = "decimal(18, 0)")]
-    public decimal IdMsg { get; set; }
+    public decimal? IdMsg { get; set; }
 
     [ForeignKey("IdMsg")]
     [InverseProperty("TblReactions")]
-    public virtual TblCommunication IdMsgNavigation { get; set; } = null!;
+    public virtual TblCommunication? IdMsgNavigation { get; set; }
 }

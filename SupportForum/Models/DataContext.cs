@@ -50,9 +50,7 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblAttachments)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("ATTACH_INITIATOR_FK");
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblAttachments).HasConstraintName("ATTACH_INITIATOR_FK");
         });
 
         modelBuilder.Entity<TblCategory>(entity =>
@@ -61,9 +59,7 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblCategories)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CATEGORY_USER_FK");
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblCategories).HasConstraintName("CATEGORY_USER_FK");
         });
 
         modelBuilder.Entity<TblCommunication>(entity =>
@@ -72,9 +68,7 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblCommunications)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("MSG_INITIATOR_FK");
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblCommunications).HasConstraintName("MSG_INITIATOR_FK");
 
             entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation).HasConstraintName("MSG_PARENT_FK");
 
@@ -91,9 +85,7 @@ public partial class DataContext : DbContext
 
             entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.TblForums).HasConstraintName("FORUM_CATEGORY_FK");
 
-            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblForums)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FORUM_USER_FK");
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblForums).HasConstraintName("FORUM_USER_FK");
 
             entity.HasOne(d => d.IdParentNavigation).WithMany(p => p.InverseIdParentNavigation).HasConstraintName("FORUM_PARENT_FK");
         });
@@ -118,9 +110,7 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdMsgNavigation).WithMany(p => p.TblReactions)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("REACTION_MSG_FK");
+            entity.HasOne(d => d.IdMsgNavigation).WithMany(p => p.TblReactions).HasConstraintName("REACTION_MSG_FK");
         });
 
         modelBuilder.Entity<TblTag>(entity =>
@@ -136,11 +126,11 @@ public partial class DataContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.TblTopics).HasConstraintName("TOPIC_FORUM_FK");
+            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.TblTopics)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("TOPIC_FORUM_FK");
 
-            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblTopics)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("TOPIC_USER_FK");
+            entity.HasOne(d => d.IdInitiatorNavigation).WithMany(p => p.TblTopics).HasConstraintName("TOPIC_USER_FK");
 
             entity.HasMany(d => d.IdTags).WithMany(p => p.IdTopics)
                 .UsingEntity<Dictionary<string, object>>(
@@ -155,7 +145,7 @@ public partial class DataContext : DbContext
                         .HasConstraintName("TTT_TOPIC_FK"),
                     j =>
                     {
-                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AE55DA016C");
+                        j.HasKey("IdTopic", "IdTag").HasName("PK__TBL_TOPI__146002AE09BF5CA6");
                         j.ToTable("TBL_TOPIC_TAG");
                         j.IndexerProperty<decimal>("IdTopic")
                             .HasColumnType("decimal(18, 0)")

@@ -30,23 +30,23 @@ public partial class TblCommunication
     [Column("estimate", TypeName = "decimal(1, 0)")]
     public decimal? Estimate { get; set; }
 
-    [Column("idParent", TypeName = "decimal(18, 0)")]
-    public decimal? IdParent { get; set; }
-
-    [Column("idInitiator", TypeName = "decimal(18, 0)")]
-    public decimal IdInitiator { get; set; }
-
-    [Column("idTopic", TypeName = "decimal(18, 0)")]
-    public decimal? IdTopic { get; set; }
-
     [Column("cmnPath")]
     [StringLength(3000)]
     [Unicode(false)]
     public string? CmnPath { get; set; }
 
+    [Column("idParent", TypeName = "decimal(18, 0)")]
+    public decimal? IdParent { get; set; }
+
+    [Column("idInitiator", TypeName = "decimal(18, 0)")]
+    public decimal? IdInitiator { get; set; }
+
+    [Column("idTopic", TypeName = "decimal(18, 0)")]
+    public decimal? IdTopic { get; set; }
+
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblCommunications")]
-    public virtual TblUser IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; }
 
     [ForeignKey("IdParent")]
     [InverseProperty("InverseIdParentNavigation")]

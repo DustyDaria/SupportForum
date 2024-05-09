@@ -40,9 +40,9 @@ public partial class TblAttachment
     public decimal EntityId { get; set; }
 
     [Column("idInitiator", TypeName = "decimal(18, 0)")]
-    public decimal IdInitiator { get; set; }
+    public decimal? IdInitiator { get; set; }
 
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblAttachments")]
-    public virtual TblUser IdInitiatorNavigation { get; set; } = null!;
+    public virtual TblUser? IdInitiatorNavigation { get; set; }
 }
