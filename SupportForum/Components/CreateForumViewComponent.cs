@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SupportForum.Models;
+using SupportForum.Models.Data;
 using SupportForum.Models.ViewModels;
 
 namespace SupportForum.ViewComponents

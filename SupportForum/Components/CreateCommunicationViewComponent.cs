@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupportForum.Models.ViewModels;
-using SupportForum.Models;
+using SupportForum.Models.Data;
 
 namespace SupportForum.Components
 {

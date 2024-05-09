@@ -1,4 +1,6 @@
-﻿namespace SupportForum.Models.ViewModels
+﻿using SupportForum.Models.Data;
+
+namespace SupportForum.Models.ViewModels
 {
     public class ForumViewModel
     {

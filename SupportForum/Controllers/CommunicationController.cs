@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SupportForum.Helper;
-using SupportForum.Models;
+using SupportForum.Models.Data;
 using SupportForum.Models.ViewModels;
 
 namespace SupportForum.Controllers

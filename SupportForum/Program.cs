@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
-using SupportForum.Models;
+using SupportForum.Models.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()

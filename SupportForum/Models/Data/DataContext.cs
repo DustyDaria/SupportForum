@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Models;
+namespace SupportForum.Models.Data;
 
 public partial class DataContext : DbContext
 {

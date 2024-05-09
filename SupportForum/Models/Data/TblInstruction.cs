@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SupportForum.Models;
+namespace SupportForum.Models.Data;
 
 [Table("TBL_INSTRUCTION")]
 [Index("Title", Name = "INSTR_TITLE_IX")]

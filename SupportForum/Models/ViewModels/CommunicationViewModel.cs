@@ -1,4 +1,4 @@
-﻿using SupportForum.Models;
+﻿using SupportForum.Models.Data;
 
 namespace SupportForum.Models.ViewModels
 {

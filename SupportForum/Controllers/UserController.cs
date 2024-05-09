@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SupportForum.Models;
+using SupportForum.Models.Data;
 
 namespace SupportForum.Controllers
 {
