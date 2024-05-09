@@ -39,6 +39,11 @@ public partial class TblCommunication
     [Column("idTopic", TypeName = "decimal(18, 0)")]
     public decimal? IdTopic { get; set; }
 
+    [Column("cmnPath")]
+    [StringLength(3000)]
+    [Unicode(false)]
+    public string? CmnPath { get; set; }
+
     [ForeignKey("IdInitiator")]
     [InverseProperty("TblCommunications")]
     public virtual TblUser IdInitiatorNavigation { get; set; } = null!;

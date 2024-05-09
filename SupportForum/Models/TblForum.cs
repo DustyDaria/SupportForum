@@ -36,6 +36,11 @@ public partial class TblForum
     [Column("idCategory", TypeName = "decimal(18, 0)")]
     public decimal? IdCategory { get; set; }
 
+    [Column("cmdPath")]
+    [StringLength(3000)]
+    [Unicode(false)]
+    public string? CmdPath { get; set; }
+
     [ForeignKey("IdCategory")]
     [InverseProperty("TblForums")]
     public virtual TblCategory? IdCategoryNavigation { get; set; }
